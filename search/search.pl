@@ -41,42 +41,46 @@ my @yearRange;
 sub genFilenames {
     my @filenames;
     my $baseString;
+    my $baseDir;
     my $startYear = $_[1];
     my $endYear = $_[2];
     my $loopInd = 0;
-    
+
     #1 for mort filenames, anything else for birth
     if ($_[0] == 1) {
         $baseString = "mort";
+        $baseDir = "processedMort/";
     } else {
         $baseString = "birth";
+        $baseDir = "processedBirth/";
     }
-    
-    if ($startYear >= $endYear){
+
+    if ($startYear > $endYear){
         exit;
     } elsif ($startYear < 1968 || $endYear > 2014) {
         exit;
     }
     if ($_[0] == 1){
         for my $year ($startYear .. $endYear) {
-            $filenames[$loopInd++] = $baseString.$year.".txt";
+            $filenames[$loopInd++] = $baseDir.$baseString.$year.".txt";
         }   
+
     } 
     else {
         for my $year ($startYear .. $endYear) {
-            $filenames[$loopInd++] = $year.$baseString.".txt";
+            $filenames[$loopInd++] = $baseDir.$year.$baseString.".txt";
         }
     }
-    
+
     return @filenames;
-    
+
 }
 
 sub printHelp {
     print "Usage: search.pl {tier 1} {tier 2} {year range}\n";
     print "Options: \n{tier 1}:\n\t{tier 2}\n\t{tier 2}\n";
     print "Race\n\tworkDeath\n\teduLvl\nGender\n\tworkDeath\n\teduLvl\nFuneral\n\tdeathMonth\nSchool\n\tbirthMonth\nBabyToy\n\tgenderMonth\nMentalHealth\n\tmaritalSuicide\n";
-    
+
 }
 
 #usage:
@@ -93,7 +97,7 @@ sub getYearRange {
         exit;
     }
     return @range;
-    
+
 }
 
 
@@ -160,10 +164,14 @@ if ($#ARGV != 2 ) {
         printHelp();
         exit;
     }
-    
+
     @yearRange = getYearRange($ARGV[2]);
     @filenames = genFilenames($isParseMort, $yearRange[0], $yearRange[1]);
-    
+
+    foreach my $year (@filenames) {
+        print $year."\n";
+    }
+
 }
 
 if($t1 eq "Gender" && $t2 eq "workDeath") {
@@ -178,22 +186,22 @@ if($t1 eq "Gender" && $t2 eq "workDeath") {
     my @workInjury;
     my @records;
     my $filename;
-    
-    
+
+
     foreach $filename (@filenames)
     {
-        
+
         #
         #   Open the input file and load the contents into records array
         #
         open my $names_fh, '<', $filename
-        or die "Unable to open names file: $filename\n";
-        
+            or die "Unable to open names file: $filename\n";
+
         @records = <$names_fh>;
-        
+
         close $names_fh or
         die "Unable to close: $filename";   # Close the input file
-        
+
         #
         #   Parse each line and store the information in arrays
         #   representing each field
@@ -214,7 +222,7 @@ if($t1 eq "Gender" && $t2 eq "workDeath") {
                 warn "Line/record could not be parsed: $records[$record_count]\n";
             }
         }
-        
+
         for (my $i = 0; $i <= $record_count; $i++)
         {
             if($gender[$i] eq "1" && $workInjury[$i] eq "1")
@@ -230,43 +238,44 @@ if($t1 eq "Gender" && $t2 eq "workDeath") {
                 $unknown++;
             }
         }
-        
-        
+
+
         #print $begYear.": male injury ".$maleInjuryCount." female injury ".$femaleInjuryCount." Unknowns ".$unknown."\n";
-        
+
         $totalMcount = $totalMcount + $maleInjuryCount;
         $totalFcount = $totalFcount + $femaleInjuryCount;
         $totalUcount = $totalUcount + $unknown;
-        
+
         $record_count = -1;
         $maleInjuryCount = 0;
         $femaleInjuryCount = 0;
         $unknown = 0;
-        
+
     }
-    
+
     print $totalMcount." Male injuries"."\n";
     print $totalFcount." Female injuries"."\n";
     print $totalUcount." Unknown"."\n";
 }
 elsif($t1 eq "BabyToy" && $t2 eq "genderMonth") {
-{
 
-    my $gender; 
-    my @monthValueMale;
-    my @monthValueFemale;  
-    my $record_count; 
+        my $filename;
+        my $gender; 
+        my @monthValueMale;
+        my @monthValueFemale;  
+        my $record_count; 
+        my @records;
 
         foreach $filename (@filenames)
         {
 
             open my $names_fh, '<', $filename
-              or die "Unable to open names file: $filename\n";
-        
-             @records = <$names_fh>;
-        
+                or die "Unable to open names file: $filename\n";
+
+            @records = <$names_fh>;
+
             close $names_fh or
-             die "Unable to close: $filename";   # Close the input file
+            die "Unable to close: $filename";   # Close the input file
 
             foreach my $birth_record ( @records )
             {
@@ -274,12 +283,12 @@ elsif($t1 eq "BabyToy" && $t2 eq "genderMonth") {
                 {
                     my @master_fields = $csv->fields();
                     $record_count++;
-                    $gender[$record_count] = $master_fields[2];
+                    $gender = $master_fields[2];
                     if ($gender eq  '1') {
-                        $monthValueMale[$master_fields[1]]++; 
+                        $monthValueMale[$master_fields[1]] = $monthValueMale[$master_fields[1]] + 1; 
                     }
                     elsif($gender eq '2') {
-                        $monthValueFemale[$master_fields[1]]++; 
+                        $monthValueFemale[$master_fields[1]] = $monthValueFemale[$master_fields[1]] + 1; 
                     }   
                 }
                 else
@@ -290,12 +299,12 @@ elsif($t1 eq "BabyToy" && $t2 eq "genderMonth") {
         }
 
 
-    for (my $i = 1; $i < 13; $i++)
-    {
-        print "Total: " . $monthValueFemale . " for month ". $i ."\n";
-        print "Total: " . $monthValueMale . " for month ". $i ."\n";
+        for (my $i = 1; $i < 13; $i++)
+        {
+            print "Total: " . $monthValueFemale[$i] . " for month ". $i ."\n";
+            print "Total: " . $monthValueMale[$i] . " for month ". $i ."\n";
 
-    }
+        }
 
 }
 
@@ -304,10 +313,16 @@ elsif($t1 eq "BabyToy" && $t2 eq "genderMonth") {
 
 
 
-exit;
-#this is how you block comment
-=begin swag
- #########################################################################################
- print "\“CATEGORY\”,\”XLABEL\”,\”VALUE\”\n";
- =end swag
- =cut
+
+
+
+
+
+
+
+
+
+
+
+
+
