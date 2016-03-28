@@ -232,7 +232,6 @@ if($t1 eq "Gender" && $t2 eq "workDeath") {
         $totalFcount = $totalFcount + $femaleInjuryCount;
         $totalUcount = $totalUcount + $unknown;
         
-        $begYear++;
         $record_count = -1;
         $maleInjuryCount = 0;
         $femaleInjuryCount = 0;
@@ -240,7 +239,6 @@ if($t1 eq "Gender" && $t2 eq "workDeath") {
         
     }
     
-    print "From ".$initialYear." to ".$endYear." there were: \n";
     print $totalMcount." Male injuries"."\n";
     print $totalFcount." Female injuries"."\n";
     print $totalUcount." Unknown"."\n";
