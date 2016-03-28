@@ -168,9 +168,11 @@ if ($#ARGV != 2 ) {
     @yearRange = getYearRange($ARGV[2]);
     @filenames = genFilenames($isParseMort, $yearRange[0], $yearRange[1]);
 
+    print STDERR "Operation on set:\n";
     foreach my $year (@filenames) {
-        print $year."\n";
+        print STDERR $year."\n";
     }
+    print STDERR "~~~~~~~~~~~~~~~~~\n";
 
 }
 
@@ -190,6 +192,7 @@ if($t1 eq "Gender" && $t2 eq "workDeath") {
 
     foreach $filename (@filenames)
     {
+        print STDERR "\tStarting $filename\n";
 
         #
         #   Open the input file and load the contents into records array
@@ -259,6 +262,7 @@ if($t1 eq "Gender" && $t2 eq "workDeath") {
 }
 elsif($t1 eq "BabyToy" && $t2 eq "genderMonth") {
 
+
         my $filename;
         my $gender; 
         my @monthValueMale;
@@ -269,6 +273,7 @@ elsif($t1 eq "BabyToy" && $t2 eq "genderMonth") {
         foreach $filename (@filenames)
         {
 
+            print STDERR "\tStarting $filename\n";
             open my $names_fh, '<', $filename
                 or die "Unable to open names file: $filename\n";
 
