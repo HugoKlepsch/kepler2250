@@ -57,9 +57,15 @@ sub genFilenames {
     } elsif ($startYear < 1968 || $endYear > 2014) {
         exit;
     }
-    
-    for my $year ($startYear .. $endYear) {
-        $filenames[$loopInd++] = $baseString.$year.".txt";
+    if ($_[0] == 1){
+        for my $year ($startYear .. $endYear) {
+            $filenames[$loopInd++] = $baseString.$year.".txt";
+        }   
+    } 
+    else {
+        for my $year ($startYear .. $endYear) {
+            $filenames[$loopInd++] = $year.$baseString.".txt";
+        }
     }
     
     return @filenames;
@@ -243,6 +249,57 @@ if($t1 eq "Gender" && $t2 eq "workDeath") {
     print $totalFcount." Female injuries"."\n";
     print $totalUcount." Unknown"."\n";
 }
+elsif($t1 eq "BabyToy" && $t2 eq "genderMonth") {
+{
+
+    my $gender; 
+    my @monthValueMale;
+    my @monthValueFemale;  
+    my $record_count; 
+
+        foreach $filename (@filenames)
+        {
+
+            open my $names_fh, '<', $filename
+              or die "Unable to open names file: $filename\n";
+        
+             @records = <$names_fh>;
+        
+            close $names_fh or
+             die "Unable to close: $filename";   # Close the input file
+
+            foreach my $birth_record ( @records )
+            {
+                if ( $csv->parse($birth_record) )
+                {
+                    my @master_fields = $csv->fields();
+                    $record_count++;
+                    $gender[$record_count] = $master_fields[2];
+                    if ($gender eq  '1') {
+                        $monthValueMale[$master_fields[1]]++; 
+                    }
+                    elsif($gender eq '2') {
+                        $monthValueFemale[$master_fields[1]]++; 
+                    }   
+                }
+                else
+                {
+                    warn "Line/record could not be parsed: $records[$record_count]\n";
+                }
+            }
+        }
+
+
+    for (my $i = 1; $i < 13; $i++)
+    {
+        print "Total: " . $monthValueFemale . " for month ". $i ."\n";
+        print "Total: " . $monthValueMale . " for month ". $i ."\n";
+
+    }
+
+}
+
+
 
 
 
