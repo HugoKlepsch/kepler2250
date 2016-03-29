@@ -190,8 +190,15 @@ if ($#ARGV != 3 ) {
 
 }
 
-#Gender workDeath
-if($t1 eq "Gender" && $t2 eq "workDeath") {
+###############################################################################
+#Start of the search code######################################################
+###############################################################################
+if ($t1 eq "Race" && $t2 eq "workDeath") {
+    #Race workDeath
+} elsif ($t1 eq "Race" && $t2 eq "eduLvl") {
+    #Race eduLvl
+} elsif ($t1 eq "Gender" && $t2 eq "workDeath") {
+    #Gender workDeath
     my $record_count = -1;
     my $maleInjuryCount = 0;
     my $femaleInjuryCount = 0;
@@ -275,7 +282,11 @@ if($t1 eq "Gender" && $t2 eq "workDeath") {
     print $totalFcount." Female injuries"."\n";
     print $totalUcount." Unknown"."\n";
 } elsif ($t1 eq "Gender" && $t2 eq "eduLvl") {
-
+    #Gender eduLvl
+} elsif($t1 eq "Funeral" && $t2 eq "deathMonth") {
+    #Funeral deathMonth
+} elsif($t1 eq "School" && $t2 eq "birthMonth") {
+    #School birthMonth
 } elsif($t1 eq "BabyToy" && $t2 eq "genderMonth") {
 
 
@@ -326,9 +337,12 @@ if($t1 eq "Gender" && $t2 eq "workDeath") {
         print "Total: " . $monthValueMale[$i] . " for month ". $i ."\n";
 
     }
-
+} elsif($t1 eq "MentalHealth" && $t2 eq "maritalSuicide") {
+    #MentalHealth maritalSuicide
+} else {
+    printHelp();
+    exit;
 }
-
 
 
 
