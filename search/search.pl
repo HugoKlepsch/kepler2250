@@ -190,6 +190,7 @@ if ($#ARGV != 3 ) {
 
 }
 
+#Gender workDeath
 if($t1 eq "Gender" && $t2 eq "workDeath") {
     my $record_count = -1;
     my $maleInjuryCount = 0;
@@ -273,57 +274,58 @@ if($t1 eq "Gender" && $t2 eq "workDeath") {
     print $totalMcount." Male injuries"."\n";
     print $totalFcount." Female injuries"."\n";
     print $totalUcount." Unknown"."\n";
-}
-elsif($t1 eq "BabyToy" && $t2 eq "genderMonth") {
+} elsif ($t1 eq "Gender" && $t2 eq "eduLvl") {
+
+} elsif($t1 eq "BabyToy" && $t2 eq "genderMonth") {
 
 
-        my $filename;
-        my $gender; 
-        my @monthValueMale;
-        my @monthValueFemale;  
-        my $record_count; 
-        my @records;
+    my $filename;
+    my $gender; 
+    my @monthValueMale;
+    my @monthValueFemale;  
+    my $record_count; 
+    my @records;
 
-        foreach $filename (@filenames)
+    foreach $filename (@filenames)
+    {
+
+        print STDERR "\tStarting $filename\n";
+        open my $names_fh, '<', $filename
+            or die "Unable to open names file: $filename\n";
+
+        @records = <$names_fh>;
+
+        close $names_fh or
+        die "Unable to close: $filename";   # Close the input file
+
+        foreach my $birth_record ( @records )
         {
-
-            print STDERR "\tStarting $filename\n";
-            open my $names_fh, '<', $filename
-                or die "Unable to open names file: $filename\n";
-
-            @records = <$names_fh>;
-
-            close $names_fh or
-            die "Unable to close: $filename";   # Close the input file
-
-            foreach my $birth_record ( @records )
+            if ( $csv->parse($birth_record) )
             {
-                if ( $csv->parse($birth_record) )
-                {
-                    my @master_fields = $csv->fields();
-                    $record_count++;
-                    $gender = $master_fields[2];
-                    if ($gender eq  '1') {
-                        $monthValueMale[$master_fields[1]] = $monthValueMale[$master_fields[1]] + 1; 
-                    }
-                    elsif($gender eq '2') {
-                        $monthValueFemale[$master_fields[1]] = $monthValueFemale[$master_fields[1]] + 1; 
-                    }   
+                my @master_fields = $csv->fields();
+                $record_count++;
+                $gender = $master_fields[2];
+                if ($gender eq  '1') {
+                    $monthValueMale[$master_fields[1]] = $monthValueMale[$master_fields[1]] + 1; 
                 }
-                else
-                {
-                    warn "Line/record could not be parsed: $records[$record_count]\n";
-                }
+                elsif($gender eq '2') {
+                    $monthValueFemale[$master_fields[1]] = $monthValueFemale[$master_fields[1]] + 1; 
+                }   
+            }
+            else
+            {
+                warn "Line/record could not be parsed: $records[$record_count]\n";
             }
         }
+    }
 
 
-        for (my $i = 1; $i < 13; $i++)
-        {
-            print "Total: " . $monthValueFemale[$i] . " for month ". $i ."\n";
-            print "Total: " . $monthValueMale[$i] . " for month ". $i ."\n";
+    for (my $i = 1; $i < 13; $i++)
+    {
+        print "Total: " . $monthValueFemale[$i] . " for month ". $i ."\n";
+        print "Total: " . $monthValueMale[$i] . " for month ". $i ."\n";
 
-        }
+    }
 
 }
 
