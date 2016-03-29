@@ -30,6 +30,7 @@ my $csv          = Text::CSV->new({ sep_char => $COMMA });
 my $isParseMort;
 my $t1;
 my $t2;
+my $isPlotMode;
 my @yearRange;
 
 #returns the list of filenames to parse
@@ -77,9 +78,12 @@ sub genFilenames {
 }
 
 sub printHelp {
-    print "Usage: search.pl {tier 1} {tier 2} {year range}\n";
+    print "Usage: search.pl {tier 1} {tier 2} {year range} {plotMode on/off}\n";
     print "Options: \n{tier 1}:\n\t{tier 2}\n\t{tier 2}\n";
     print "Race\n\tworkDeath\n\teduLvl\nGender\n\tworkDeath\n\teduLvl\nFuneral\n\tdeathMonth\nSchool\n\tbirthMonth\nBabyToy\n\tgenderMonth\nMentalHealth\n\tmaritalSuicide\n";
+    print "Usage: search.pl Gender workDeath 1968-1971 on\n";
+    print "To search a single year, put that year as both sides of the year range.\n";
+    print "PlotMode off means the output is in a 'human readable' format. \nPlotMode on means the output is ready for our plotting tool\n";
 
 }
 
@@ -102,7 +106,7 @@ sub getYearRange {
 
 
 #   Check that you have the right number of parameters
-if ($#ARGV != 2 ) {
+if ($#ARGV != 3 ) {
     printHelp();
     exit;
 } else {
@@ -167,8 +171,18 @@ if ($#ARGV != 2 ) {
 
     @yearRange = getYearRange($ARGV[2]);
     @filenames = genFilenames($isParseMort, $yearRange[0], $yearRange[1]);
+    $isPlotMode = $ARGV[3];
+    if ($isPlotMode eq "on") {
+        $isPlotMode = 1;
+    } elsif ($isPlotMode eq "off") {
+        $isPlotMode = 0;
+    } else {
+        printHelp();
+        exit;
+    }
+    print $isPlotMode."\n";
 
-    print STDERR "Operation on set:\n";
+    print STDERR "Will try to load these files:\n";
     foreach my $year (@filenames) {
         print STDERR $year."\n";
     }
