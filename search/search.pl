@@ -204,12 +204,18 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     my $totalMcount = 0;
     my $totalFcount = 0;
     my $totalUcount = 0;
-    my $unknown = 0;
     my @race;
     my @workInjury;
     my @records;
     my $filename;
     
+    my $initialYear = 0;
+    my $unknown = 0;
+    my $begYear = 0;
+    my $endYear = 0;
+    $initialYear = $yearRange[0];
+    $begYear = $yearRange[0];
+    $endYear = $yearRange[1];
     
     foreach $filename (@filenames)
     {
@@ -274,12 +280,27 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
         
     }
     
-    print $whiteCount." White workplace injuries"."\n";
-    print $blackCount." Black workplace injuries"."\n";
-    print $indianCount." Native Indian workplace injuries"."\n";
-    print $asianCount." Asian workplace injuries"."\n";
-    print $otherCount." Other workplace injuries"."\n";
-    print $unknown." Unknown injuries"."\n";
+    if($isPlotMode == 0)
+    {
+        print "From ".$initialYear." to ".$endYear." there were: \n";
+        print $whiteCount." White workplace injuries"."\n";
+        print $blackCount." Black workplace injuries"."\n";
+        print $indianCount." Native Indian workplace injuries"."\n";
+        print $asianCount." Asian workplace injuries"."\n";
+        print $otherCount." Other workplace injuries"."\n";
+        print $unknown." Unknown injuries"."\n";
+    }
+    else
+    {
+        print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
+        
+        print "White,".$initialYear."-".$endYear.",".$whiteCount."\n";
+        print "Black,".$initialYear."-".$endYear.",".$blackCount."\n";
+        print "Native Indian,".$initialYear."-".$endYear.",".$indianCount."\n";
+        print "Asian,".$initialYear."-".$endYear.",".$asianCount."\n";
+        print "Other,".$initialYear."-".$endYear.",".$otherCount."\n";
+        print "Unknown,".$initialYear."-".$endYear.",".$unknown."\n";
+    }
     
 } elsif ($t1 eq "Race" && $t2 eq "eduLvl") {
     #Race eduLvl
@@ -318,11 +339,18 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     my $totalMcount = 0;
     my $totalFcount = 0;
     my $totalUcount = 0;
-    my $unknown = 0;
     my @race;
     my @eduLevel;
     my @records;
     my $filename;
+    
+    my $initialYear = 0;
+    my $unknown = 0;
+    my $begYear = 0;
+    my $endYear = 0;
+    $initialYear = $yearRange[0];
+    $begYear = $yearRange[0];
+    $endYear = $yearRange[1];
     
     
     foreach $filename (@filenames)
@@ -452,32 +480,66 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
         
     }
     
-    print $whiteNe." White people with no education"."\n";
-    print $blackNe." Black people with no education"."\n";
-    print $indianNe." Native Indian people with no education"."\n";
-    print $asianNe." Asian people with no education"."\n";
-    print $otherNe." Other people with no education"."\n";
-    print "\n";
-    print $whiteElem." White people with elementary school education"."\n";
-    print $blackElem." Black people with elementary school education"."\n";
-    print $indianElem." Native Indian people with elementary school education"."\n";
-    print $asianElem." Asian people with elementary school education"."\n";
-    print $otherElem." Other people with elementary school education"."\n";
-    print "\n";
-    print $whiteHs." White people with high school education"."\n";
-    print $blackHs." Black people with high school education"."\n";
-    print $indianHs." Native Indian people with high school education"."\n";
-    print $asianHs." Asian people with high school education"."\n";
-    print $otherHs." Other people with high school education"."\n";
-    print "\n";
-    print $whiteUni." White people with college education"."\n";
-    print $blackUni." Black people with college education"."\n";
-    print $indianUni." Native indian people with college education"."\n";
-    print $asianUni." Asian people with college education"."\n";
-    print $otherUni." Other people with college education"."\n";
-    print "\n";
-    print $notStated." People with unstated education"."\n";
-    
+    if($isPlotMode == 0)
+    {
+        print "From ".$initialYear." to ".$endYear." there were: \n";
+        print $whiteNe." White people with no education"."\n";
+        print $blackNe." Black people with no education"."\n";
+        print $indianNe." Native Indian people with no education"."\n";
+        print $asianNe." Asian people with no education"."\n";
+        print $otherNe." Other people with no education"."\n";
+        print "\n";
+        print $whiteElem." White people with elementary school education"."\n";
+        print $blackElem." Black people with elementary school education"."\n";
+        print $indianElem." Native Indian people with elementary school education"."\n";
+        print $asianElem." Asian people with elementary school education"."\n";
+        print $otherElem." Other people with elementary school education"."\n";
+        print "\n";
+        print $whiteHs." White people with high school education"."\n";
+        print $blackHs." Black people with high school education"."\n";
+        print $indianHs." Native Indian people with high school education"."\n";
+        print $asianHs." Asian people with high school education"."\n";
+        print $otherHs." Other people with high school education"."\n";
+        print "\n";
+        print $whiteUni." White people with college education"."\n";
+        print $blackUni." Black people with college education"."\n";
+        print $indianUni." Native indian people with college education"."\n";
+        print $asianUni." Asian people with college education"."\n";
+        print $otherUni." Other people with college education"."\n";
+        print "\n";
+        print $notStated." People with unstated education"."\n";
+    }
+    else
+    {
+        print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
+        
+        print "WhiteNe,".$initialYear."-".$endYear.",".$whiteNe."\n";
+        print "BlackNe,".$initialYear."-".$endYear.",".$blackNe."\n";
+        print "IndianNe,".$initialYear."-".$endYear.",".$indianNe."\n";
+        print "AsianNe,".$initialYear."-".$endYear.",".$asianNe."\n";
+        print "OtherNe,".$initialYear."-".$endYear.",".$otherNe."\n";
+        
+        print "WhiteElem,".$initialYear."-".$endYear.",".$whiteElem."\n";
+        print "BlackElem,".$initialYear."-".$endYear.",".$blackElem."\n";
+        print "IndianElem,".$initialYear."-".$endYear.",".$indianElem."\n";
+        print "AsianElem,".$initialYear."-".$endYear.",".$asianElem."\n";
+        print "OtherElem,".$initialYear."-".$endYear.",".$otherElem."\n";
+        
+        print "WhiteHs,".$initialYear."-".$endYear.",".$whiteHs."\n";
+        print "BlackHs,".$initialYear."-".$endYear.",".$blackHs."\n";
+        print "IndianHs,".$initialYear."-".$endYear.",".$indianHs."\n";
+        print "AsianHs,".$initialYear."-".$endYear.",".$asianHs."\n";
+        print "OtherHs,".$initialYear."-".$endYear.",".$otherHs."\n";
+        
+        print "WhiteUni,".$initialYear."-".$endYear.",".$whiteUni."\n";
+        print "BlackUni,".$initialYear."-".$endYear.",".$blackUni."\n";
+        print "IndianUni,".$initialYear."-".$endYear.",".$indianUni."\n";
+        print "AsianUni,".$initialYear."-".$endYear.",".$asianUni."\n";
+        print "OtherUni,".$initialYear."-".$endYear.",".$otherUni."\n";
+        
+        print "NotStated,".$initialYear."-".$endYear.",".$notStated."\n";
+        
+    }
 } elsif ($t1 eq "Gender" && $t2 eq "workDeath") {
     #Gender workDeath
     my $record_count = -1;
@@ -486,12 +548,18 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     my $totalMcount = 0;
     my $totalFcount = 0;
     my $totalUcount = 0;
-    my $unknown = 0;
     my @gender;
     my @workInjury;
     my @records;
     my $filename;
     
+    my $initialYear = 0;
+    my $unknown = 0;
+    my $begYear = 0;
+    my $endYear = 0;
+    $initialYear = $yearRange[0];
+    $begYear = $yearRange[0];
+    $endYear = $yearRange[1];
     
     foreach $filename (@filenames)
     {
@@ -553,9 +621,21 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
         
     }
     
-    print $totalMcount." Male injuries"."\n";
-    print $totalFcount." Female injuries"."\n";
-    print $totalUcount." Unknown"."\n";
+    if($isPlotMode == 0)
+    {
+        print "From ".$initialYear." to ".$endYear." there were: \n";
+        print $totalMcount." Male injuries"."\n";
+        print $totalFcount." Female injuries"."\n";
+        print $totalUcount." Unknown"."\n";
+    }
+    else
+    {
+        print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
+        
+        print "Male,".$initialYear."-".$endYear.",".$totalMcount."\n";
+        print "Female,".$initialYear."-".$endYear.",".$totalFcount."\n";
+        print "Unknown,".$initialYear."-".$endYear.",".$totalUcount."\n";
+    }
 } elsif ($t1 eq "Gender" && $t2 eq "eduLvl") {
     #Gender eduLvl
     my $record_count = -1;
@@ -576,6 +656,13 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     my @records;
     my $filename;
     
+    my $initialYear = 0;
+    my $unknown = 0;
+    my $begYear = 0;
+    my $endYear = 0;
+    $initialYear = $yearRange[0];
+    $begYear = $yearRange[0];
+    $endYear = $yearRange[1];
     
     foreach $filename (@filenames)
     {
@@ -656,16 +743,43 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
         
     }
     
-    print $maleNe." Males with no education"."\n";
-    print $femaleNe." Females with no education"."\n";
-    print $maleElem." Males with elementary school education"."\n";
-    print $femaleElem." Females with elementary school education"."\n";
-    print $maleHs." Males with high school education"."\n";
-    print $femaleHs." Females with high school education"."\n";
-    print $maleUni." Males with college education"."\n";
-    print $femaleUni." Females with college education"."\n";
-    print $maleNs." Males with unstated education"."\n";
-    print $femaleNs." Females with unstated education"."\n";
+    if($isPlotMode == 0)
+    {
+        print "From ".$initialYear." to ".$endYear." there were: \n";
+        print $maleNe." Males with no education"."\n";
+        print $femaleNe." Females with no education"."\n";
+        print "\n";
+        print $maleElem." Males with elementary school education"."\n";
+        print $femaleElem." Females with elementary school education"."\n";
+        print "\n";
+        print $maleHs." Males with high school education"."\n";
+        print $femaleHs." Females with high school education"."\n";
+        print "\n";
+        print $maleUni." Males with college education"."\n";
+        print $femaleUni." Females with college education"."\n";
+        print "\n";
+        print $maleNs." Males with unstated education"."\n";
+        print $femaleNs." Females with unstated education"."\n";
+    }
+    else
+    {
+        print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
+        
+        print "MaleNe,".$initialYear."-".$endYear.",".$maleNe."\n";
+        print "FemaleNe,".$initialYear."-".$endYear.",".$femaleNe."\n";
+        
+        print "MaleElem,".$initialYear."-".$endYear.",".$maleElem."\n";
+        print "FemaleElem,".$initialYear."-".$endYear.",".$femaleElem."\n";
+        
+        print "MaleHs,".$initialYear."-".$endYear.",".$maleHs."\n";
+        print "FemaleHs,".$initialYear."-".$endYear.",".$femaleHs."\n";
+        
+        print "MaleUni,".$initialYear."-".$endYear.",".$maleUni."\n";
+        print "FemaleUni,".$initialYear."-".$endYear.",".$femaleUni."\n";
+        
+        print "MaleNs,".$initialYear."-".$endYear.",".$maleNs."\n";
+        print "FemaleNs,".$initialYear."-".$endYear.",".$femaleNs."\n";
+    }
     
 } elsif($t1 eq "Funeral" && $t2 eq "deathMonth") {
     #Funeral deathMonth
@@ -684,15 +798,14 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     my $novDeath = 0;
     my $decDeath = 0;
     
-    my $initialYear = 0;
-    my $unknown = 0;
-    my $begYear = 0;
-    my $endYear = 0;
     my @month;
     my @death;
     my @records;
     
-    
+    my $initialYear = 0;
+    my $unknown = 0;
+    my $begYear = 0;
+    my $endYear = 0;
     $initialYear = $yearRange[0];
     $begYear = $yearRange[0];
     $endYear = $yearRange[1];
@@ -790,19 +903,39 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
         
     }
     
-    print "From ".$initialYear." to ".$endYear." there were: \n";
-    print "Jan: ".$janDeath." Deaths"."\n";
-    print "Feb: ".$febDeath." Deaths"."\n";
-    print "Mar: ".$marDeath." Deaths"."\n";
-    print "Apr: ".$aprDeath." Deaths"."\n";
-    print "May: ".$mayDeath." Deaths"."\n";
-    print "Jun: ".$junDeath." Deaths"."\n";
-    print "Jul: ".$julDeath." Deaths"."\n";
-    print "Aug: ".$augDeath." Deaths"."\n";
-    print "Sept: ".$sepDeath." Deaths"."\n";
-    print "Oct: ".$octDeath." Deaths"."\n";
-    print "Nov: ".$novDeath." Deaths"."\n";
-    print "Dec: ".$decDeath." Deaths"."\n";
+    if($isPlotMode == 0)
+    {
+        print "From ".$initialYear." to ".$endYear." there were: \n";
+        print "Jan: ".$janDeath." Deaths"."\n";
+        print "Feb: ".$febDeath." Deaths"."\n";
+        print "Mar: ".$marDeath." Deaths"."\n";
+        print "Apr: ".$aprDeath." Deaths"."\n";
+        print "May: ".$mayDeath." Deaths"."\n";
+        print "Jun: ".$junDeath." Deaths"."\n";
+        print "Jul: ".$julDeath." Deaths"."\n";
+        print "Aug: ".$augDeath." Deaths"."\n";
+        print "Sept: ".$sepDeath." Deaths"."\n";
+        print "Oct: ".$octDeath." Deaths"."\n";
+        print "Nov: ".$novDeath." Deaths"."\n";
+        print "Dec: ".$decDeath." Deaths"."\n";
+    }
+    else
+    {
+        print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
+        
+        print "Jan,".$initialYear."-".$endYear.",".$janDeath."\n";
+        print "Feb,".$initialYear."-".$endYear.",".$febDeath."\n";
+        print "Mar,".$initialYear."-".$endYear.",".$marDeath."\n";
+        print "Apr,".$initialYear."-".$endYear.",".$aprDeath."\n";
+        print "May,".$initialYear."-".$endYear.",".$mayDeath."\n";
+        print "Jun,".$initialYear."-".$endYear.",".$junDeath."\n";
+        print "Jul,".$initialYear."-".$endYear.",".$julDeath."\n";
+        print "Aug,".$initialYear."-".$endYear.",".$augDeath."\n";
+        print "Sept,".$initialYear."-".$endYear.",".$sepDeath."\n";
+        print "Oct,".$initialYear."-".$endYear.",".$octDeath."\n";
+        print "Nov,".$initialYear."-".$endYear.",".$novDeath."\n";
+        print "Dec,".$initialYear."-".$endYear.",".$decDeath."\n";
+    }
     
 } elsif($t1 eq "School" && $t2 eq "birthMonth") {
     #School birthMonth
@@ -870,6 +1003,13 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     my @records;
     my $filename;
     
+    my $initialYear = 0;
+    my $unknown = 0;
+    my $begYear = 0;
+    my $endYear = 0;
+    $initialYear = $yearRange[0];
+    $begYear = $yearRange[0];
+    $endYear = $yearRange[1];
     
     foreach $filename (@filenames)
     {
@@ -930,11 +1070,25 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
         
     }
     
-    print $singleCount." Single suicides"."\n";
-    print $marriedCount." Married suicides"."\n";
-    print $widowedCount." Widowed suicides"."\n";
-    print $divorcedCount." Divorced suicides"."\n";
-    print $unknownCount." Unknown suicides"."\n";
+    if($isPlotMode == 0)
+    {
+        print "From ".$initialYear." to ".$endYear." there were: \n";
+        print $singleCount." Single suicides"."\n";
+        print $marriedCount." Married suicides"."\n";
+        print $widowedCount." Widowed suicides"."\n";
+        print $divorcedCount." Divorced suicides"."\n";
+        print $unknownCount." Unknown suicides"."\n";
+    }
+    else
+    {
+        print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
+        
+        print "Single,".$initialYear."-".$endYear.",".$singleCount;
+        print "Married,".$initialYear."-".$endYear.",".$marriedCount;
+        print "Widowed,".$initialYear."-".$endYear.",".$widowedCount;
+        print "Divorced,".$initialYear."-".$endYear.",".$divorcedCount;
+        print "Unknown,".$initialYear."-".$endYear.",".$unknownCount;
+    }
     
 } else {
     printHelp();
