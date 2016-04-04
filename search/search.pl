@@ -180,7 +180,6 @@ if ($#ARGV != 3 ) {
         printHelp();
         exit;
     }
-    print $isPlotMode."\n";
     
     print STDERR "Will try to load these files:\n";
     foreach my $year (@filenames) {
