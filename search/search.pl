@@ -292,7 +292,7 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     else
     {
         print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
-        
+        print "CATEGORY,XLABEL,VALUE";
         print "White,".$initialYear."-".$endYear.",".$whiteCount."\n";
         print "Black,".$initialYear."-".$endYear.",".$blackCount."\n";
         print "Native Indian,".$initialYear."-".$endYear.",".$indianCount."\n";
@@ -511,7 +511,7 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     else
     {
         print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
-        
+        print "CATEGORY,XLABEL,VALUE";
         print "WhiteNe,".$initialYear."-".$endYear.",".$whiteNe."\n";
         print "BlackNe,".$initialYear."-".$endYear.",".$blackNe."\n";
         print "IndianNe,".$initialYear."-".$endYear.",".$indianNe."\n";
@@ -630,7 +630,7 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     else
     {
         print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
-        
+        print "CATEGORY,XLABEL,VALUE";
         print "Male,".$initialYear."-".$endYear.",".$totalMcount."\n";
         print "Female,".$initialYear."-".$endYear.",".$totalFcount."\n";
         print "Unknown,".$initialYear."-".$endYear.",".$totalUcount."\n";
@@ -763,7 +763,7 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     else
     {
         print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
-        
+        print "CATEGORY,XLABEL,VALUE";
         print "MaleNe,".$initialYear."-".$endYear.",".$maleNe."\n";
         print "FemaleNe,".$initialYear."-".$endYear.",".$femaleNe."\n";
         
@@ -921,7 +921,7 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     else
     {
         print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
-        
+        print "CATEGORY,XLABEL,VALUE";
         print "Jan,".$initialYear."-".$endYear.",".$janDeath."\n";
         print "Feb,".$initialYear."-".$endYear.",".$febDeath."\n";
         print "Mar,".$initialYear."-".$endYear.",".$marDeath."\n";
@@ -1081,7 +1081,7 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     else
     {
         print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
-        
+        print "CATEGORY,XLABEL,VALUE";
         print "Single,".$initialYear."-".$endYear.",".$singleCount;
         print "Married,".$initialYear."-".$endYear.",".$marriedCount;
         print "Widowed,".$initialYear."-".$endYear.",".$widowedCount;
