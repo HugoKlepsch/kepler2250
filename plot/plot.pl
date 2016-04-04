@@ -77,8 +77,8 @@ $R->run(q`library(ggplot2)`);
 $R->run(qq`data <- read.csv("$infilename.temp")`);
 
 # plot the data as a line plot with each point outlined
-#$R->run(q`ggplot(data, aes(x=Year, y=Score, colour=Name, group=Name)) + geom_line() + geom_point(size=2) + ggtitle("Popularity of Names") + ylab("Ranking") + scale_y_continuous(breaks=c(0,1,2,3,4,5,6,7,8), labels=c("None", "> 2000", "1000-2000", "500-999", "200-499", "100-199", "50-99", "11-49", "1-10")) `);
-$R->run(qq`ggplot(data, aes(x=CATEGORY, y=XLABEL)) + geom_bar(aes(fill=VALUE),stat="identity", binwidth=3) + ggtitle("$title") + ylab("Goal Differential") + xlab("Games") + scale_fill_manual(values=c("red", "blue")) + theme(axis.text.x=element_text(angle=50, size=10, vjust=0.5)) `); 
+$R->run(q`ggplot(data, aes(x=CATEGORY, y=VALUE, colour=XLABEL, group=XLABEL)) + geom_line() + geom_point(size=2) + ggtitle("Popularity of Names") + ylab("Ranking") + scale_y_continuous(breaks=c(0,1,2,3,4,5,6,7,8), labels=c("None", "> 2000", "1000-2000", "500-999", "200-499", "100-199", "50-99", "11-49", "1-10")) `);
+#$R->run(qq`ggplot(data, aes(x=CATEGORY, y=XLABEL)) + geom_bar(aes(fill=VALUE),stat="identity", binwidth=3) + ggtitle("asdf title") + ylab("Goal Differential") + xlab("Games") + scale_fill_manual(values=c("red", "blue")) + theme(axis.text.x=element_text(angle=50, size=10, vjust=0.5)) `); 
 # close down the PDF device
 $R->run(q`dev.off()`);
 
