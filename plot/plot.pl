@@ -77,7 +77,8 @@ $R->run(qq`data <- read.csv("$infilename.temp")`);
 
 # plot the data as a line plot with each point outlined
 #$R->run(q`ggplot(data, aes(x=CATEGORY, y=VALUE, colour=XLABEL, group=XLABEL)) + geom_line() + geom_point(size=2) + ggtitle("Popularity of Names") + ylab("Ranking")`);
-$R->run(q`ggplot(data, aes(x=CATEGORY, y=VALUE, colour=XLABEL, group=XLABEL)) + geom_bar(stat="identity", position="dodge") + ggtitle("Popularity of Names") + ylab("Ranking")`);
+#$R->run(q`ggplot(data, aes(x=CATEGORY, y=VALUE, colour=XLABEL, group=XLABEL)) + geom_bar(stat="identity", position="dodge") + ggtitle("Popularity of Names") + ylab("Ranking")`);
+$R->run(q`ggplot(data, aes(x=CATEGORY, y=VALUE)) + geom_bar(stat="identity", position="dodge") + ggtitle("Popularity of Names") + ylab("Ranking")`);
 #$R->run(qq`ggplot(data, aes(x=CATEGORY, y=XLABEL)) + geom_bar(aes(fill=VALUE),stat="identity", binwidth=3) + ggtitle("asdf title") + ylab("Goal Differential") + xlab("Games") + scale_fill_manual(values=c("red", "blue")) + theme(axis.text.x=element_text(angle=50, size=10, vjust=0.5)) `); 
 # close down the PDF device
 $R->run(q`dev.off()`);

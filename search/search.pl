@@ -182,6 +182,7 @@ if ($#ARGV != 4 ) {
         printHelp();
         exit;
     }
+    $isIgnoreUnknown = $ARGV[4];
     if ($isIgnoreUnknown eq "on") {
         $isIgnoreUnknown = 1;
     } elsif ($isIgnoreUnknown eq "off") {
