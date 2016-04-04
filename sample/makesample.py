@@ -1,4 +1,3 @@
-#!/usr/bin/python2
 import random
 def sampleFile(name, isMort):
     baseDirMort = '../processedMort/'
