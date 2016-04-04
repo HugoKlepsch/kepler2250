@@ -13,7 +13,7 @@ def sampleFile(name, isMort):
         fin = open(baseDirBirth+name, 'r')
         fout = open(newDirBirth + name, 'w')
 
-    percentage = 0.1
+    percentage = 0.03
 
     for line in fin:
         if (random.random() < percentage):
