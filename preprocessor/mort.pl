@@ -307,7 +307,7 @@ while ( $mortRecord = <$mortFH> ) {
             $mStatus = 9;
         }
         
-        $edu03 = substr($mortRecord, 60, 2); #Already in our format
+        $edu03 = substr($mortRecord, 61, 2); #Already in our format
         $workInjury = substr($mortRecord, 105, 1); #Already in our format
         
         if ($workInjury eq "Y")
@@ -324,11 +324,11 @@ while ( $mortRecord = <$mortFH> ) {
         }
         
         $mannerOD = substr($mortRecord, 106, 1);
-        if ($mannerOD == 2)
+        if ($mannerOD eq "2")
         {
             $mannerOD = 1;
         }
-        elsif ($mannerOD == 3)
+        elsif ($mannerOD eq "3")
         {
             $mannerOD = 2;
         }
