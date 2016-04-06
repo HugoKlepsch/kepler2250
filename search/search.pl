@@ -994,8 +994,81 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
         print "12,".$initialYear."-".$endYear.",".$decDeath."\n";
     }
     
-} elsif($t1 eq "School" && $t2 eq "birthMonth") {
-    #School birthMonth
+} 
+elsif($t1 eq "School" && $t2 eq "birthMonth") 
+{
+    my $initialYear = 0;
+    my $unknown = 0;
+    my $begYear = 0;
+    my $endYear = 0;
+    $initialYear = $yearRange[0];
+    $begYear = $yearRange[0];
+    $endYear = $yearRange[1];
+    
+    my $filename;
+    my $gender;
+    my @monthValue;
+    my $record_count;
+    my @records;
+    
+    foreach $filename (@filenames)
+    {
+        
+        print STDERR "\tStarting $filename\n";
+        open my $names_fh, '<', $filename
+        or die "Unable to open names file: $filename\n";
+        
+        @records = <$names_fh>;
+        
+        close $names_fh or
+        die "Unable to close: $filename";   # Close the input file
+        
+        foreach my $birth_record ( @records )
+        {
+            if ( $csv->parse($birth_record) )
+            {
+                my @master_fields = $csv->fields();
+                $record_count++;
+              
+                $monthValue[$master_fields[1]] += 1;
+                
+
+            }
+            else
+            {
+                warn "Line/record could not be parsed: $records[$record_count]\n";
+            }
+        }
+    }
+    
+    if ($isPlotMode == 0)
+    {
+        for (my $i = 1; $i < 13; $i++)
+        {
+            print "Total Births per month: " . $monthValue[$i] . " for month ". $i ."\n";
+        
+        }
+    }
+    else
+    {
+        print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
+        print "CATEGORY,XLABEL,VALUE\n";
+        print "01,".$initialYear."-".$endYear.",".$monthValue[1]."\n";
+        print "02,".$initialYear."-".$endYear.",".$monthValue[2]."\n";
+        print "03,".$initialYear."-".$endYear.",".$monthValue[3]."\n";
+        print "04,".$initialYear."-".$endYear.",".$monthValue[4]."\n";
+        print "05,".$initialYear."-".$endYear.",".$monthValue[5]."\n";
+        print "06,".$initialYear."-".$endYear.",".$monthValue[6]."\n";
+        print "07,".$initialYear."-".$endYear.",".$monthValue[7]."\n";
+        print "08,".$initialYear."-".$endYear.",".$monthValue[8]."\n";
+        print "09,".$initialYear."-".$endYear.",".$monthValue[9]."\n";
+        print "10,".$initialYear."-".$endYear.",".$monthValue[10]."\n";
+        print "11,".$initialYear."-".$endYear.",".$monthValue[11]."\n";
+        print "12,".$initialYear."-".$endYear.",".$monthValue[12]."\n";
+    }
+
+
+
 } elsif($t1 eq "BabyToy" && $t2 eq "genderMonth") {
     my $initialYear = 0;
     my $unknown = 0;
