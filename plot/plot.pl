@@ -101,7 +101,7 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
 } elsif($t1 eq "BabyToy" && $t2 eq "genderMonth") {
     $R->run(qq`ggplot(data, aes(x=CATEGORY, y=VALUE, color=XLABEL)) + geom_bar(stat="identity", position="dodge") + ggtitle("Births per month by gender during $yearString") +scale_x_continuous(breaks=c(01,02,03,04,05,06,07,08,09,10,11,12), labels=c("Jan","Feb","Mar","Apr","May","June","July","August","Sept","Oct","Nov","Dec")) + ylab("Births") + xlab("Month") + theme(axis.text.x=element_text(angle=50, size=10, vjust=1))`);
 } elsif($t1 eq "MentalHealth" && $t2 eq "maritalSuicide") {
-    $R->run(qq`ggplot(data, aes(x=CATEGORY, y=VALUE, color=XLABEL)) + geom_bar(stat="identity", position="dodge") + ggtitle("Deaths for different marital statuses during $yearString") + ylab("Deaths") + xlab("Marital status") + theme(axis.text.x=element_text(angle=50, size=10, vjust=1))`);
+    $R->run(qq`ggplot(data, aes(x=CATEGORY, y=VALUE, color=XLABEL)) + geom_bar(stat="identity", position="dodge") + ggtitle("Deaths for different marital statuses during $yearString") + ylab("Suicides") + xlab("Marital status") + theme(axis.text.x=element_text(angle=50, size=10, vjust=1))`);
 } else {
     printHelp();
     exit;
