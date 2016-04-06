@@ -82,10 +82,10 @@ sub printHelp {
     print "Usage: search.pl {tier 1} {tier 2} {year range} {plotMode on/off} {ignoreUnknown on/off}\n";
     print "Options: \n{tier 1}:\n\t{tier 2}\n\t{tier 2}\n";
     print "Race\n\tworkDeath\n\teduLvl\nGender\n\tworkDeath\n\teduLvl\nFuneral\n\tdeathMonth\nSchool\n\tbirthMonth\nBabyToy\n\tgenderMonth\nMentalHealth\n\tmaritalSuicide\n";
-    print "Usage: search.pl Gender workDeath 1968-1971 on\n";
-    print "To search a single year, put that year as both sides of the year range.\n";
-    print "PlotMode off means the output is in a 'human readable' format. \nPlotMode on means the output is ready for our plotting tool\n";
-    print "ignoreUnknown on means that the output of the search tool does not include statistics on \n\"unknown\" categories. For example it will not output information on unknown race, or education level. \nExceptions for workplace deaths, as unknown injury is more important there. \n";
+    print "• Usage: search.pl Gender workDeath 1968-1971 on\n";
+    print "• To search a single year, put that year as both sides of the year range.\n";
+    print "• PlotMode off means the output is in a 'human readable' format. \n• PlotMode on means the output is ready for our plotting tool\n";
+    print "• ignoreUnknown on means that the output of the search tool does not include statistics on \n\"unknown\" categories. For example it will not output information on unknown race, or education level. \nExceptions for workplace deaths, as unknown injury is more important there. \n";
     
 }
 
