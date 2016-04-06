@@ -19,12 +19,19 @@ my $csv          = Text::CSV->new({ sep_char => ',' });
 #   Check that you have the right number of parameters
 #
 if ($#ARGV != 1 ) {
-   print "Usage: plot.pl <input file name> <pdf file name>\n" or
-      die "Print failure\n";
-   exit;
+    if ($#ARGV == 0) {
+        print "Only one filename given, assuming that wanted pdf file output is $ARGV[0].pdf\n";
+        $infilename = $ARGV[0];
+        $pdffilename = $infilename.".pdf";
+    } else {
+
+        print "Usage: plot.pl <input file name> <pdf file name>\n" or
+        die "Print failure\n";
+        exit;
+    }
 } else {
-   $infilename = $ARGV[0];
-   $pdffilename = $ARGV[1];
+    $infilename = $ARGV[0];
+    $pdffilename = $ARGV[1];
 }  
 
 print "input file = $infilename\n";
