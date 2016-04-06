@@ -75,6 +75,27 @@ $R->run(q`library(ggplot2)`);
 # read in data from a CSV file
 $R->run(qq`data <- read.csv("$infilename.temp")`);
 
+##############################################################
+##########START OF QUESTION-SPECIFIC PLOTTING#################
+##############################################################
+
+if ($t1 eq "Race" && $t2 eq "workDeath") {
+} elsif ($t1 eq "Race" && $t2 eq "eduLvl") {
+} elsif ($t1 eq "Gender" && $t2 eq "workDeath") {
+} elsif ($t1 eq "Gender" && $t2 eq "eduLvl") {
+} elsif($t1 eq "Funeral" && $t2 eq "deathMonth") {
+} elsif($t1 eq "School" && $t2 eq "birthMonth") {
+} elsif($t1 eq "BabyToy" && $t2 eq "genderMonth") {
+} elsif($t1 eq "MentalHealth" && $t2 eq "maritalSuicide") {
+} else {
+    printHelp();
+    exit;
+}
+##############################################################
+###########END OF QUESTION-SPECIFIC PLOTTING##################
+##############################################################
+
+
 # plot the data as a line plot with each point outlined
 #$R->run(q`ggplot(data, aes(x=CATEGORY, y=VALUE, colour=XLABEL, group=XLABEL)) + geom_line() + geom_point(size=2) + ggtitle("Popularity of Names") + ylab("Ranking")`);
 #$R->run(q`ggplot(data, aes(x=CATEGORY, y=VALUE, colour=XLABEL, group=XLABEL)) + geom_bar(stat="identity", position="dodge") + ggtitle("Popularity of Names") + ylab("Ranking")`);
