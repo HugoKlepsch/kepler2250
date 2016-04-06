@@ -82,6 +82,7 @@ $R->run(qq`data <- read.csv("$infilename.temp")`);
 if ($t1 eq "Race" && $t2 eq "workDeath") {
     $R->run(qq`ggplot(data, aes(x=CATEGORY, y=VALUE, color=XLABEL)) + geom_bar(stat="identity", position="dodge") + ggtitle("Workplace deaths by race during $yearString")  + ylab("Deaths") + xlab("Race") + theme(axis.text.x=element_text(angle=50, size=10, vjust=1))`);
 } elsif ($t1 eq "Race" && $t2 eq "eduLvl") {
+    $R->run(qq`ggplot(data, aes(x=CATEGORY, y=VALUE, color=XLABEL)) + geom_bar(stat="identity", position="dodge") + ggtitle("Education level by race during $yearString")  + ylab("Number with x level") + xlab("Races") + theme(axis.text.x=element_text(angle=50, size=10, vjust=1))`);
 } elsif ($t1 eq "Gender" && $t2 eq "workDeath") {
 } elsif ($t1 eq "Gender" && $t2 eq "eduLvl") {
 } elsif($t1 eq "Funeral" && $t2 eq "deathMonth") {

@@ -539,29 +539,29 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
         {
             print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
             print "CATEGORY,XLABEL,VALUE\n";
-            print "WhiteNe,".$initialYear."-".$endYear.",".$whiteNe."\n";
-            print "BlackNe,".$initialYear."-".$endYear.",".$blackNe."\n";
-            print "IndianNe,".$initialYear."-".$endYear.",".$indianNe."\n";
-            print "AsianNe,".$initialYear."-".$endYear.",".$asianNe."\n";
-            print "OtherNe,".$initialYear."-".$endYear.",".$otherNe."\n";
+            print "White,"."No education".",".$whiteNe."\n";
+            print "Black,"."No education".",".$blackNe."\n";
+            print "Indian,"."No education".",".$indianNe."\n";
+            print "Asian,"."No education".",".$asianNe."\n";
+            print "Other,"."No education".",".$otherNe."\n";
             
-            print "WhiteElem,".$initialYear."-".$endYear.",".$whiteElem."\n";
-            print "BlackElem,".$initialYear."-".$endYear.",".$blackElem."\n";
-            print "IndianElem,".$initialYear."-".$endYear.",".$indianElem."\n";
-            print "AsianElem,".$initialYear."-".$endYear.",".$asianElem."\n";
-            print "OtherElem,".$initialYear."-".$endYear.",".$otherElem."\n";
+            print "White,"."Elementary".",".$whiteElem."\n";
+            print "Black,"."Elementary".",".$blackElem."\n";
+            print "Indian,"."Elementary".",".$indianElem."\n";
+            print "Asian,"."Elementary".",".$asianElem."\n";
+            print "Other,"."Elementary".",".$otherElem."\n";
             
-            print "WhiteHs,".$initialYear."-".$endYear.",".$whiteHs."\n";
-            print "BlackHs,".$initialYear."-".$endYear.",".$blackHs."\n";
-            print "IndianHs,".$initialYear."-".$endYear.",".$indianHs."\n";
-            print "AsianHs,".$initialYear."-".$endYear.",".$asianHs."\n";
-            print "OtherHs,".$initialYear."-".$endYear.",".$otherHs."\n";
+            print "White,"."High School".",".$whiteHs."\n";
+            print "Black,"."High School".",".$blackHs."\n";
+            print "Indian,"."High School".",".$indianHs."\n";
+            print "Asian,"."High School".",".$asianHs."\n";
+            print "Other,"."High School".",".$otherHs."\n";
             
-            print "WhiteUni,".$initialYear."-".$endYear.",".$whiteUni."\n";
-            print "BlackUni,".$initialYear."-".$endYear.",".$blackUni."\n";
-            print "IndianUni,".$initialYear."-".$endYear.",".$indianUni."\n";
-            print "AsianUni,".$initialYear."-".$endYear.",".$asianUni."\n";
-            print "OtherUni,".$initialYear."-".$endYear.",".$otherUni."\n";
+            print "White,"."University".",".$whiteUni."\n";
+            print "Black,"."University".",".$blackUni."\n";
+            print "Indian,"."University".",".$indianUni."\n";
+            print "Asian,"."University".",".$asianUni."\n";
+            print "Other,"."University".",".$otherUni."\n";
             
         }
         
@@ -569,31 +569,31 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
         {
             print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
             print "CATEGORY,XLABEL,VALUE\n";
-            print "WhiteNe,".$initialYear."-".$endYear.",".$whiteNe."\n";
-            print "BlackNe,".$initialYear."-".$endYear.",".$blackNe."\n";
-            print "IndianNe,".$initialYear."-".$endYear.",".$indianNe."\n";
-            print "AsianNe,".$initialYear."-".$endYear.",".$asianNe."\n";
-            print "OtherNe,".$initialYear."-".$endYear.",".$otherNe."\n";
+            print "White,"."No education".",".$whiteNe."\n";
+            print "Black,"."No education".",".$blackNe."\n";
+            print "Indian,"."No education".",".$indianNe."\n";
+            print "Asian,"."No education".",".$asianNe."\n";
+            print "Other,"."No education".",".$otherNe."\n";
             
-            print "WhiteElem,".$initialYear."-".$endYear.",".$whiteElem."\n";
-            print "BlackElem,".$initialYear."-".$endYear.",".$blackElem."\n";
-            print "IndianElem,".$initialYear."-".$endYear.",".$indianElem."\n";
-            print "AsianElem,".$initialYear."-".$endYear.",".$asianElem."\n";
-            print "OtherElem,".$initialYear."-".$endYear.",".$otherElem."\n";
+            print "White,"."Elementary".",".$whiteElem."\n";
+            print "Black,"."Elementary".",".$blackElem."\n";
+            print "Indian,"."Elementary".",".$indianElem."\n";
+            print "Asian,"."Elementary".",".$asianElem."\n";
+            print "Other,"."Elementary".",".$otherElem."\n";
             
-            print "WhiteHs,".$initialYear."-".$endYear.",".$whiteHs."\n";
-            print "BlackHs,".$initialYear."-".$endYear.",".$blackHs."\n";
-            print "IndianHs,".$initialYear."-".$endYear.",".$indianHs."\n";
-            print "AsianHs,".$initialYear."-".$endYear.",".$asianHs."\n";
-            print "OtherHs,".$initialYear."-".$endYear.",".$otherHs."\n";
+            print "White,"."High School".",".$whiteHs."\n";
+            print "Black,"."High School".",".$blackHs."\n";
+            print "Indian,"."High School".",".$indianHs."\n";
+            print "Asian,"."High School".",".$asianHs."\n";
+            print "Other,"."High School".",".$otherHs."\n";
             
-            print "WhiteUni,".$initialYear."-".$endYear.",".$whiteUni."\n";
-            print "BlackUni,".$initialYear."-".$endYear.",".$blackUni."\n";
-            print "IndianUni,".$initialYear."-".$endYear.",".$indianUni."\n";
-            print "AsianUni,".$initialYear."-".$endYear.",".$asianUni."\n";
-            print "OtherUni,".$initialYear."-".$endYear.",".$otherUni."\n";
+            print "White,"."University".",".$whiteUni."\n";
+            print "Black,"."University".",".$blackUni."\n";
+            print "Indian,"."University".",".$indianUni."\n";
+            print "Asian,"."University".",".$asianUni."\n";
+            print "Other,"."University".",".$otherUni."\n";
             
-            print "NotStated,".$initialYear."-".$endYear.",".$notStated."\n";
+            print "All races,"."Not stated".",".$notStated."\n";
         }
         
     }
@@ -822,17 +822,17 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     {
         print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
         print "CATEGORY,XLABEL,VALUE\n";
-        print "MaleNe,".$initialYear."-".$endYear.",".$maleNe."\n";
-        print "FemaleNe,".$initialYear."-".$endYear.",".$femaleNe."\n";
+        print "Male,"."No education".",".$maleNe."\n";
+        print "Female,"."No education".",".$femaleNe."\n";
         
-        print "MaleElem,".$initialYear."-".$endYear.",".$maleElem."\n";
-        print "FemaleElem,".$initialYear."-".$endYear.",".$femaleElem."\n";
+        print "Male,"."Elementary".",".$maleElem."\n";
+        print "Female,"."Elementary".",".$femaleElem."\n";
         
-        print "MaleHs,".$initialYear."-".$endYear.",".$maleHs."\n";
-        print "FemaleHs,".$initialYear."-".$endYear.",".$femaleHs."\n";
+        print "Male,"."High School".",".$maleHs."\n";
+        print "Female,"."High School".",".$femaleHs."\n";
         
-        print "MaleUni,".$initialYear."-".$endYear.",".$maleUni."\n";
-        print "FemaleUni,".$initialYear."-".$endYear.",".$femaleUni."\n";
+        print "Male,"."University".",".$maleUni."\n";
+        print "Female,"."University".",".$femaleUni."\n";
         
         print "MaleNs,".$initialYear."-".$endYear.",".$maleNs."\n";
         print "FemaleNs,".$initialYear."-".$endYear.",".$femaleNs."\n";
