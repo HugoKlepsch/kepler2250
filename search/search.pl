@@ -1165,12 +1165,21 @@ elsif($t1 eq "School" && $t2 eq "birthMonth")
 } elsif($t1 eq "MentalHealth" && $t2 eq "maritalSuicide") {
     #MentalHealth maritalSuicide
     my $record_count = -1;
-    my $singleCount = 0;
-    my $marriedCount = 0;
-    my $widowedCount = 0;
-    my $divorcedCount = 0;
-    my $unknownCount = 0;
-    my $suicideCount = 0;
+    my $gender = 0;
+    my $singleCountMale = 0;
+    my $marriedCountMale = 0;
+    my $widowedCountMale = 0;
+    my $divorcedCountMale = 0;
+    my $unknownCountMale = 0;
+    my $suicideCountMale = 0;
+
+    my $singleCountFemale = 0;
+    my $marriedCountFemale = 0;
+    my $widowedCountFemale = 0;
+    my $divorcedCountFemale = 0;
+    my $unknownCountFemale = 0;
+    my $suicideCountFemale = 0;
+
     my @mStatus;
     my @mannerOD;
     my @records;
@@ -1211,28 +1220,49 @@ elsif($t1 eq "School" && $t2 eq "birthMonth")
             {
                 my @master_fields = $csv->fields();
                 $record_count++;
+                $gender                     = $master_fields[2];
                 $mStatus[$record_count]     = $master_fields[4];
-                $mannerOD[$record_count]     = $master_fields[7];
+                $mannerOD[$record_count]    = $master_fields[7];
                 
                 if($mStatus[$record_count] eq "1" && $mannerOD[$record_count] eq "1")
                 {
-                    $singleCount++;
+                    if ($gender eq "1") {
+                        $singleCountMale++;
+                    } elsif($gender eq "2") {
+                        $singleCountFemale++;
+                    }
                 }
                 elsif($mStatus[$record_count] eq "2" && $mannerOD[$record_count] eq "1")
                 {
-                    $marriedCount++;
+                    if ($gender eq "1") {
+                        $marriedCountMale++;
+                    } elsif($gender eq "2") {
+                        $marriedCountFemale++;
+                    }
                 }
                 elsif($mStatus[$record_count] eq "3" && $mannerOD[$record_count] eq "1")
                 {
-                    $widowedCount++;
+                    if ($gender eq "1") {
+                        $widowedCountMale++;
+                    } elsif($gender eq "2") {
+                        $widowedCountFemale++;
+                    }
                 }
                 elsif($mStatus[$record_count] eq "4" && $mannerOD[$record_count] eq "1")
                 {
-                    $divorcedCount++;
+                    if ($gender eq "1") {
+                        $divorcedCountMale++;
+                    } elsif($gender eq "2") {
+                        $divorcedCountFemale++;
+                    }
                 }
                 elsif($mStatus[$record_count] eq "9" && $mannerOD[$record_count] eq "1")
                 {
-                    $unknownCount++;
+                    if ($gender eq "1") {
+                        $unknownCountMale++;
+                    } elsif($gender eq "2") {
+                        $unknownCountFemale++;
+                    }
                 }
             }
             else
@@ -1246,11 +1276,16 @@ elsif($t1 eq "School" && $t2 eq "birthMonth")
     if($isPlotMode == 0)
     {
         print "From ".$initialYear." to ".$endYear." there were: \n";
-        print $singleCount." Single suicides"."\n";
-        print $marriedCount." Married suicides"."\n";
-        print $widowedCount." Widowed suicides"."\n";
-        print $divorcedCount." Divorced suicides"."\n";
-        print $unknownCount." Unknown suicides"."\n";
+        print $singleCountMale." Single suicides for male"."\n";
+        print $marriedCountMale." Married suicides for male"."\n";
+        print $widowedCountMale." Widowed suicides for male"."\n";
+        print $divorcedCountMale." Divorced suicides for male"."\n";
+        print $unknownCountMale." Unknown suicides for male"."\n";
+        print $singleCountFemale." Single suicides for female"."\n";
+        print $marriedCountFemale." Married suicides for female"."\n";
+        print $widowedCountFemale." Widowed suicides for female"."\n";
+        print $divorcedCountFemale." Divorced suicides for female"."\n";
+        print $unknownCountFemale." Unknown suicides for female"."\n";
     }
     else
     {
@@ -1258,21 +1293,30 @@ elsif($t1 eq "School" && $t2 eq "birthMonth")
         {
             print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
             print "CATEGORY,XLABEL,VALUE\n";
-            print "Single,".$initialYear."-".$endYear.",".$singleCount."\n";
-            print "Married,".$initialYear."-".$endYear.",".$marriedCount."\n";
-            print "Widowed,".$initialYear."-".$endYear.",".$widowedCount."\n";
-            print "Divorced,".$initialYear."-".$endYear.",".$divorcedCount."\n";
+            print "Single,"."Male".",".$singleCountMale."\n";
+            print "Married,"."Male".",".$marriedCountMale."\n";
+            print "Widowed,"."Male".",".$widowedCountMale."\n";
+            print "Divorced,"."Male".",".$divorcedCountMale."\n";
+            print "Single,"."Female".",".$singleCountFemale."\n";
+            print "Married,"."Female".",".$marriedCountFemale."\n";
+            print "Widowed,"."Female".",".$widowedCountFemale."\n";
+            print "Divorced,"."Female".",".$divorcedCountFemale."\n";
         }
         
         else
         {
             print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
             print "CATEGORY,XLABEL,VALUE\n";
-            print "Single,".$initialYear."-".$endYear.",".$singleCount."\n";
-            print "Married,".$initialYear."-".$endYear.",".$marriedCount."\n";
-            print "Widowed,".$initialYear."-".$endYear.",".$widowedCount."\n";
-            print "Divorced,".$initialYear."-".$endYear.",".$divorcedCount."\n";
-            print "Unknown,".$initialYear."-".$endYear.",".$unknownCount."\n";
+            print "Single,"."Male".",".$singleCountMale."\n";
+            print "Married,"."Male".",".$marriedCountMale."\n";
+            print "Widowed,"."Male".",".$widowedCountMale."\n";
+            print "Divorced,"."Male".",".$divorcedCountMale."\n";
+            print "Unknown,"."Male".",".$unknownCountMale."\n";
+            print "Single,"."Female".",".$singleCountFemale."\n";
+            print "Married,"."Female".",".$marriedCountFemale."\n";
+            print "Widowed,"."Female".",".$widowedCountFemale."\n";
+            print "Divorced,"."Female".",".$divorcedCountFemale."\n";
+            print "Unknown,"."Female".",".$unknownCountFemale."\n";
         }
     }
     
