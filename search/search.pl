@@ -950,7 +950,13 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
 } elsif($t1 eq "School" && $t2 eq "birthMonth") {
     #School birthMonth
 } elsif($t1 eq "BabyToy" && $t2 eq "genderMonth") {
-    
+    my $initialYear = 0;
+    my $unknown = 0;
+    my $begYear = 0;
+    my $endYear = 0;
+    $initialYear = $yearRange[0];
+    $begYear = $yearRange[0];
+    $endYear = $yearRange[1];
     
     my $filename;
     my $gender;
@@ -979,11 +985,13 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
                 $record_count++;
                 $gender = $master_fields[2];
                 if ($gender eq  '1') {
-                    $monthValueMale[$master_fields[1]] = $monthValueMale[$master_fields[1]] + 1;
+                    $monthValueMale[$master_fields[1]] += 1;
                 }
+
                 elsif($gender eq '2') {
-                    $monthValueFemale[$master_fields[1]] = $monthValueFemale[$master_fields[1]] + 1;
+                    $monthValueFemale[$master_fields[1]] += 1;
                 }
+
             }
             else
             {
@@ -992,13 +1000,35 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
         }
     }
     
-    
-    for (my $i = 1; $i < 13; $i++)
+    if ($isPlotMode == 0)
     {
-        print "Total: " . $monthValueFemale[$i] . " for month ". $i ."\n";
-        print "Total: " . $monthValueMale[$i] . " for month ". $i ."\n";
+        for (my $i = 1; $i < 13; $i++)
+        {
+            print "Female Total: " . $monthValueFemale[$i] . " for month ". $i ."\n";
+            print "Male Total: " . $monthValueMale[$i] . " for month ". $i ."\n";
         
+        }
     }
+    else
+    {
+        print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
+        print "CATEGORY,XLABEL,VALUE\n";
+        print "Jan,"."MALE ".$initialYear."-".$endYear.",".$monthValueMale[1]."\n";
+        print "Feb,"."MALE ".$initialYear."-".$endYear.",".$monthValueMale[2]."\n";
+        print "Mar,"."MALE ".$initialYear."-".$endYear.",".$monthValueMale[3]."\n";
+        print "Apr,"."MALE ".$initialYear."-".$endYear.",".$monthValueMale[4]."\n";
+        print "May,"."MALE ".$initialYear."-".$endYear.",".$monthValueMale[5]."\n";
+        print "Jun,"."MALE ".$initialYear."-".$endYear.",".$monthValueMale[6]."\n";
+        print "Jul,"."MALE ".$initialYear."-".$endYear.",".$monthValueMale[7]."\n";
+        print "Aug,"."MALE ".$initialYear."-".$endYear.",".$monthValueMale[8]."\n";
+        print "Sept,"."MALE ".$initialYear."-".$endYear.",".$monthValueMale[9]."\n";
+        print "Oct,"."MALE ".$initialYear."-".$endYear.",".$monthValueMale[10]."\n";
+        print "Nov,"."MALE ".$initialYear."-".$endYear.",".$monthValueMale[11]."\n";
+        print "Dec,"."MALE ".$initialYear."-".$endYear.",".$monthValueMale[12]."\n";
+    }
+
+
+
 } elsif($t1 eq "MentalHealth" && $t2 eq "maritalSuicide") {
     #MentalHealth maritalSuicide
     my $record_count = -1;
