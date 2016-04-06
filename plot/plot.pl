@@ -88,11 +88,13 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
 } elsif ($t1 eq "Gender" && $t2 eq "eduLvl") {
     $R->run(qq`ggplot(data, aes(x=CATEGORY, y=VALUE, color=XLABEL)) + geom_bar(stat="identity", position="dodge") + ggtitle("Education level by gender during $yearString")  + ylab("Number with x level") + xlab("Genders") + theme(axis.text.x=element_text(angle=50, size=10, vjust=1))`);
 } elsif($t1 eq "Funeral" && $t2 eq "deathMonth") {
+    $R->run(qq`ggplot(data, aes(x=CATEGORY, y=VALUE, color=XLABEL)) + geom_bar(stat="identity", position="dodge") + ggtitle("Deaths per month during $yearString") +scale_x_continuous(breaks=c(01,02,03,04,05,06,07,08,09,10,11,12), labels=c("Jan","Feb","Mar","Apr","May","June","July","August","Sept","Oct","Nov","Dec")) + ylab("Deaths") + xlab("Month") + theme(axis.text.x=element_text(angle=50, size=10, vjust=1))`);
 } elsif($t1 eq "School" && $t2 eq "birthMonth") {
+    $R->run(qq`ggplot(data, aes(x=CATEGORY, y=VALUE, color=XLABEL)) + geom_bar(stat="identity", position="dodge") + ggtitle("Births per month during $yearString") +scale_x_continuous(breaks=c(01,02,03,04,05,06,07,08,09,10,11,12), labels=c("Jan","Feb","Mar","Apr","May","June","July","August","Sept","Oct","Nov","Dec")) + ylab("Births") + xlab("Month") + theme(axis.text.x=element_text(angle=50, size=10, vjust=1))`);
 } elsif($t1 eq "BabyToy" && $t2 eq "genderMonth") {
     $R->run(qq`ggplot(data, aes(x=CATEGORY, y=VALUE, color=XLABEL)) + geom_bar(stat="identity", position="dodge") + ggtitle("Births per month by gender during $yearString") +scale_x_continuous(breaks=c(01,02,03,04,05,06,07,08,09,10,11,12), labels=c("Jan","Feb","Mar","Apr","May","June","July","August","Sept","Oct","Nov","Dec")) + ylab("Births") + xlab("Month") + theme(axis.text.x=element_text(angle=50, size=10, vjust=1))`);
-#$R->run(q`ggplot(data, aes(x=Year, y=Score, colour=Name, group=Name)) + geom_line() + geom_point(size=2) + ggtitle("Popularity of Names") + ylab("Ranking") + scale_y_continuous(breaks=c(0,1,2,3,4,5,6,7,8), labels=c("None", "> 2000", "1000-2000", "500-999", "200-499", "100-199", "50-99", "11-49", "1-10")) `);
 } elsif($t1 eq "MentalHealth" && $t2 eq "maritalSuicide") {
+    $R->run(qq`ggplot(data, aes(x=CATEGORY, y=VALUE, color=XLABEL)) + geom_bar(stat="identity", position="dodge") + ggtitle("Deaths for different marital statuses during $yearString") + ylab("Deaths") + xlab("Marital status") + theme(axis.text.x=element_text(angle=50, size=10, vjust=1))`);
 } else {
     printHelp();
     exit;
