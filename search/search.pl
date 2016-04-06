@@ -302,14 +302,28 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     }
     else
     {
-        print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
-        print "CATEGORY,XLABEL,VALUE\n";
-        print "White,".$initialYear."-".$endYear.",".$whiteCount."\n";
-        print "Black,".$initialYear."-".$endYear.",".$blackCount."\n";
-        print "Native Indian,".$initialYear."-".$endYear.",".$indianCount."\n";
-        print "Asian,".$initialYear."-".$endYear.",".$asianCount."\n";
-        print "Other,".$initialYear."-".$endYear.",".$otherCount."\n";
-        print "Unknown,".$initialYear."-".$endYear.",".$unknown."\n";
+        if ($isIgnoreUnknown == 1)
+        {
+            print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
+            print "CATEGORY,XLABEL,VALUE\n";
+            print "White,".$initialYear."-".$endYear.",".$whiteCount."\n";
+            print "Black,".$initialYear."-".$endYear.",".$blackCount."\n";
+            print "Native Indian,".$initialYear."-".$endYear.",".$indianCount."\n";
+            print "Asian,".$initialYear."-".$endYear.",".$asianCount."\n";
+            print "Other,".$initialYear."-".$endYear.",".$otherCount."\n";
+        }
+        else
+        {
+            print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
+            print "CATEGORY,XLABEL,VALUE\n";
+            print "White,".$initialYear."-".$endYear.",".$whiteCount."\n";
+            print "Black,".$initialYear."-".$endYear.",".$blackCount."\n";
+            print "Native Indian,".$initialYear."-".$endYear.",".$indianCount."\n";
+            print "Asian,".$initialYear."-".$endYear.",".$asianCount."\n";
+            print "Other,".$initialYear."-".$endYear.",".$otherCount."\n";
+            print "Unknown,".$initialYear."-".$endYear.",".$unknown."\n";
+        }
+        
     }
     
 } elsif ($t1 eq "Race" && $t2 eq "eduLvl") {
@@ -521,33 +535,66 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     }
     else
     {
-        print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
-        print "CATEGORY,XLABEL,VALUE\n";
-        print "WhiteNe,".$initialYear."-".$endYear.",".$whiteNe."\n";
-        print "BlackNe,".$initialYear."-".$endYear.",".$blackNe."\n";
-        print "IndianNe,".$initialYear."-".$endYear.",".$indianNe."\n";
-        print "AsianNe,".$initialYear."-".$endYear.",".$asianNe."\n";
-        print "OtherNe,".$initialYear."-".$endYear.",".$otherNe."\n";
+        if ($isIgnoreUnknown == 1)
+        {
+            print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
+            print "CATEGORY,XLABEL,VALUE\n";
+            print "WhiteNe,".$initialYear."-".$endYear.",".$whiteNe."\n";
+            print "BlackNe,".$initialYear."-".$endYear.",".$blackNe."\n";
+            print "IndianNe,".$initialYear."-".$endYear.",".$indianNe."\n";
+            print "AsianNe,".$initialYear."-".$endYear.",".$asianNe."\n";
+            print "OtherNe,".$initialYear."-".$endYear.",".$otherNe."\n";
+            
+            print "WhiteElem,".$initialYear."-".$endYear.",".$whiteElem."\n";
+            print "BlackElem,".$initialYear."-".$endYear.",".$blackElem."\n";
+            print "IndianElem,".$initialYear."-".$endYear.",".$indianElem."\n";
+            print "AsianElem,".$initialYear."-".$endYear.",".$asianElem."\n";
+            print "OtherElem,".$initialYear."-".$endYear.",".$otherElem."\n";
+            
+            print "WhiteHs,".$initialYear."-".$endYear.",".$whiteHs."\n";
+            print "BlackHs,".$initialYear."-".$endYear.",".$blackHs."\n";
+            print "IndianHs,".$initialYear."-".$endYear.",".$indianHs."\n";
+            print "AsianHs,".$initialYear."-".$endYear.",".$asianHs."\n";
+            print "OtherHs,".$initialYear."-".$endYear.",".$otherHs."\n";
+            
+            print "WhiteUni,".$initialYear."-".$endYear.",".$whiteUni."\n";
+            print "BlackUni,".$initialYear."-".$endYear.",".$blackUni."\n";
+            print "IndianUni,".$initialYear."-".$endYear.",".$indianUni."\n";
+            print "AsianUni,".$initialYear."-".$endYear.",".$asianUni."\n";
+            print "OtherUni,".$initialYear."-".$endYear.",".$otherUni."\n";
+            
+        }
         
-        print "WhiteElem,".$initialYear."-".$endYear.",".$whiteElem."\n";
-        print "BlackElem,".$initialYear."-".$endYear.",".$blackElem."\n";
-        print "IndianElem,".$initialYear."-".$endYear.",".$indianElem."\n";
-        print "AsianElem,".$initialYear."-".$endYear.",".$asianElem."\n";
-        print "OtherElem,".$initialYear."-".$endYear.",".$otherElem."\n";
-        
-        print "WhiteHs,".$initialYear."-".$endYear.",".$whiteHs."\n";
-        print "BlackHs,".$initialYear."-".$endYear.",".$blackHs."\n";
-        print "IndianHs,".$initialYear."-".$endYear.",".$indianHs."\n";
-        print "AsianHs,".$initialYear."-".$endYear.",".$asianHs."\n";
-        print "OtherHs,".$initialYear."-".$endYear.",".$otherHs."\n";
-        
-        print "WhiteUni,".$initialYear."-".$endYear.",".$whiteUni."\n";
-        print "BlackUni,".$initialYear."-".$endYear.",".$blackUni."\n";
-        print "IndianUni,".$initialYear."-".$endYear.",".$indianUni."\n";
-        print "AsianUni,".$initialYear."-".$endYear.",".$asianUni."\n";
-        print "OtherUni,".$initialYear."-".$endYear.",".$otherUni."\n";
-        
-        print "NotStated,".$initialYear."-".$endYear.",".$notStated."\n";
+        else
+        {
+            print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
+            print "CATEGORY,XLABEL,VALUE\n";
+            print "WhiteNe,".$initialYear."-".$endYear.",".$whiteNe."\n";
+            print "BlackNe,".$initialYear."-".$endYear.",".$blackNe."\n";
+            print "IndianNe,".$initialYear."-".$endYear.",".$indianNe."\n";
+            print "AsianNe,".$initialYear."-".$endYear.",".$asianNe."\n";
+            print "OtherNe,".$initialYear."-".$endYear.",".$otherNe."\n";
+            
+            print "WhiteElem,".$initialYear."-".$endYear.",".$whiteElem."\n";
+            print "BlackElem,".$initialYear."-".$endYear.",".$blackElem."\n";
+            print "IndianElem,".$initialYear."-".$endYear.",".$indianElem."\n";
+            print "AsianElem,".$initialYear."-".$endYear.",".$asianElem."\n";
+            print "OtherElem,".$initialYear."-".$endYear.",".$otherElem."\n";
+            
+            print "WhiteHs,".$initialYear."-".$endYear.",".$whiteHs."\n";
+            print "BlackHs,".$initialYear."-".$endYear.",".$blackHs."\n";
+            print "IndianHs,".$initialYear."-".$endYear.",".$indianHs."\n";
+            print "AsianHs,".$initialYear."-".$endYear.",".$asianHs."\n";
+            print "OtherHs,".$initialYear."-".$endYear.",".$otherHs."\n";
+            
+            print "WhiteUni,".$initialYear."-".$endYear.",".$whiteUni."\n";
+            print "BlackUni,".$initialYear."-".$endYear.",".$blackUni."\n";
+            print "IndianUni,".$initialYear."-".$endYear.",".$indianUni."\n";
+            print "AsianUni,".$initialYear."-".$endYear.",".$asianUni."\n";
+            print "OtherUni,".$initialYear."-".$endYear.",".$otherUni."\n";
+            
+            print "NotStated,".$initialYear."-".$endYear.",".$notStated."\n";
+        }
         
     }
 } elsif ($t1 eq "Gender" && $t2 eq "workDeath") {
@@ -1121,13 +1168,26 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     }
     else
     {
-        print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
-        print "CATEGORY,XLABEL,VALUE\n";
-        print "Single,".$initialYear."-".$endYear.",".$singleCount;
-        print "Married,".$initialYear."-".$endYear.",".$marriedCount;
-        print "Widowed,".$initialYear."-".$endYear.",".$widowedCount;
-        print "Divorced,".$initialYear."-".$endYear.",".$divorcedCount;
-        print "Unknown,".$initialYear."-".$endYear.",".$unknownCount;
+        if ($isIgnoreUnknown == 1)
+        {
+            print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
+            print "CATEGORY,XLABEL,VALUE\n";
+            print "Single,".$initialYear."-".$endYear.",".$singleCount."\n";
+            print "Married,".$initialYear."-".$endYear.",".$marriedCount."\n";
+            print "Widowed,".$initialYear."-".$endYear.",".$widowedCount."\n";
+            print "Divorced,".$initialYear."-".$endYear.",".$divorcedCount."\n";
+        }
+        
+        else
+        {
+            print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
+            print "CATEGORY,XLABEL,VALUE\n";
+            print "Single,".$initialYear."-".$endYear.",".$singleCount."\n";
+            print "Married,".$initialYear."-".$endYear.",".$marriedCount."\n";
+            print "Widowed,".$initialYear."-".$endYear.",".$widowedCount."\n";
+            print "Divorced,".$initialYear."-".$endYear.",".$divorcedCount."\n";
+            print "Unknown,".$initialYear."-".$endYear.",".$unknownCount."\n";
+        }
     }
     
 } else {
