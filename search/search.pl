@@ -834,8 +834,8 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
         print "Male,"."University".",".$maleUni."\n";
         print "Female,"."University".",".$femaleUni."\n";
         
-        print "MaleNs,".$initialYear."-".$endYear.",".$maleNs."\n";
-        print "FemaleNs,".$initialYear."-".$endYear.",".$femaleNs."\n";
+        print "Male,"."Not stated".",".$maleNs."\n";
+        print "Female,"."Not stated".",".$femaleNs."\n";
     }
     
 } elsif($t1 eq "Funeral" && $t2 eq "deathMonth") {
