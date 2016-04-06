@@ -980,18 +980,18 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     {
         print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
         print "CATEGORY,XLABEL,VALUE\n";
-        print "Jan,".$initialYear."-".$endYear.",".$janDeath."\n";
-        print "Feb,".$initialYear."-".$endYear.",".$febDeath."\n";
-        print "Mar,".$initialYear."-".$endYear.",".$marDeath."\n";
-        print "Apr,".$initialYear."-".$endYear.",".$aprDeath."\n";
-        print "May,".$initialYear."-".$endYear.",".$mayDeath."\n";
-        print "Jun,".$initialYear."-".$endYear.",".$junDeath."\n";
-        print "Jul,".$initialYear."-".$endYear.",".$julDeath."\n";
-        print "Aug,".$initialYear."-".$endYear.",".$augDeath."\n";
-        print "Sept,".$initialYear."-".$endYear.",".$sepDeath."\n";
-        print "Oct,".$initialYear."-".$endYear.",".$octDeath."\n";
-        print "Nov,".$initialYear."-".$endYear.",".$novDeath."\n";
-        print "Dec,".$initialYear."-".$endYear.",".$decDeath."\n";
+        print "01,".$initialYear."-".$endYear.",".$janDeath."\n";
+        print "02,".$initialYear."-".$endYear.",".$febDeath."\n";
+        print "03,".$initialYear."-".$endYear.",".$marDeath."\n";
+        print "04,".$initialYear."-".$endYear.",".$aprDeath."\n";
+        print "05,".$initialYear."-".$endYear.",".$mayDeath."\n";
+        print "06,".$initialYear."-".$endYear.",".$junDeath."\n";
+        print "07,".$initialYear."-".$endYear.",".$julDeath."\n";
+        print "08,".$initialYear."-".$endYear.",".$augDeath."\n";
+        print "09,".$initialYear."-".$endYear.",".$sepDeath."\n";
+        print "10,".$initialYear."-".$endYear.",".$octDeath."\n";
+        print "11,".$initialYear."-".$endYear.",".$novDeath."\n";
+        print "12,".$initialYear."-".$endYear.",".$decDeath."\n";
     }
     
 } elsif($t1 eq "School" && $t2 eq "birthMonth") {
@@ -1060,31 +1060,31 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     {
         print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
         print "CATEGORY,XLABEL,VALUE\n";
-        print "Jan,"."MALE,".$monthValueMale[1]."\n";
-        print "Feb,"."MALE,".$monthValueMale[2]."\n";
-        print "Mar,"."MALE,".$monthValueMale[3]."\n";
-        print "Apr,"."MALE,".$monthValueMale[4]."\n";
-        print "May,"."MALE,".$monthValueMale[5]."\n";
-        print "Jun,"."MALE,".$monthValueMale[6]."\n";
-        print "Jul,"."MALE,".$monthValueMale[7]."\n";
-        print "Aug,"."MALE,".$monthValueMale[8]."\n";
-        print "Sept,"."MALE,".$monthValueMale[9]."\n";
-        print "Oct,"."MALE,".$monthValueMale[10]."\n";
-        print "Nov,"."MALE,".$monthValueMale[11]."\n";
-        print "Dec,"."MALE,".$monthValueMale[12]."\n";
+        print "01,"."MALE,".$monthValueMale[1]."\n";
+        print "02,"."MALE,".$monthValueMale[2]."\n";
+        print "03,"."MALE,".$monthValueMale[3]."\n";
+        print "04,"."MALE,".$monthValueMale[4]."\n";
+        print "05,"."MALE,".$monthValueMale[5]."\n";
+        print "06,"."MALE,".$monthValueMale[6]."\n";
+        print "07,"."MALE,".$monthValueMale[7]."\n";
+        print "08,"."MALE,".$monthValueMale[8]."\n";
+        print "09,"."MALE,".$monthValueMale[9]."\n";
+        print "10,"."MALE,".$monthValueMale[10]."\n";
+        print "11,"."MALE,".$monthValueMale[11]."\n";
+        print "12,"."MALE,".$monthValueMale[12]."\n";
 
-        print "Jan,"."FEMALE,".$monthValueFemale[1]."\n";
-        print "Feb,"."FEMALE,".$monthValueFemale[2]."\n";
-        print "Mar,"."FEMALE,".$monthValueFemale[3]."\n";
-        print "Apr,"."FEMALE,".$monthValueFemale[4]."\n";
-        print "May,"."FEMALE,".$monthValueFemale[5]."\n";
-        print "Jun,"."FEMALE,".$monthValueFemale[6]."\n";
-        print "Jul,"."FEMALE,".$monthValueFemale[7]."\n";
-        print "Aug,"."FEMALE,".$monthValueFemale[8]."\n";
-        print "Sept,"."FEMALE,".$monthValueFemale[9]."\n";
-        print "Oct,"."FEMALE,".$monthValueFemale[10]."\n";
-        print "Nov,"."FEMALE,".$monthValueFemale[11]."\n";
-        print "Dec,"."FEMALE,".$monthValueFemale[12]."\n";
+        print "01,"."FEMALE,".$monthValueFemale[1]."\n";
+        print "02,"."FEMALE,".$monthValueFemale[2]."\n";
+        print "03,"."FEMALE,".$monthValueFemale[3]."\n";
+        print "04,"."FEMALE,".$monthValueFemale[4]."\n";
+        print "05,"."FEMALE,".$monthValueFemale[5]."\n";
+        print "06,"."FEMALE,".$monthValueFemale[6]."\n";
+        print "07,"."FEMALE,".$monthValueFemale[7]."\n";
+        print "08,"."FEMALE,".$monthValueFemale[8]."\n";
+        print "09,"."FEMALE,".$monthValueFemale[9]."\n";
+        print "10,"."FEMALE,".$monthValueFemale[10]."\n";
+        print "11,"."FEMALE,".$monthValueFemale[11]."\n";
+        print "12,"."FEMALE,".$monthValueFemale[12]."\n";
     }
 
 
