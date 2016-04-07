@@ -58,8 +58,10 @@ sub genFilenames {
     }
     
     if ($startYear > $endYear){
+        printHelp();
         exit;
     } elsif ($startYear < 1968 || $endYear > 2014) {
+        printHelp();
         exit;
     }
     if ($_[0] == 1){
@@ -100,6 +102,7 @@ sub getYearRange {
     @range = split("-",$string);
     #ensure the correct parameters are given
     if ($#range != 1) {
+        printHelp();
         exit;
     }
     return @range;
