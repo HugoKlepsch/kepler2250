@@ -1,7 +1,17 @@
 #!/usr/bin/perl
+
 #
-#   Packages and modules
+#  plot.pl
+#     Author: Hugo Klepsch
+#     Date of Last Update: Sunday, April 06, 2016.
 #
+#     Parameters on the commandline:
+#        $ARGV[0] = name of the input file, 
+#        $ARGV[1] = the name of the output pdf file (or blank)
+#
+
+
+
 use strict;
 use warnings;
 use version;         our $VERSION = qv('5.16.0');   # This is the version of Perl to be used
@@ -10,21 +20,23 @@ use Statistics::R;
 
 my $infilename;
 my $pdffilename;
-my $t1;
-my $t2;
-my $yearString;
+my $t1; #meta-data tier 1
+my $t2; #meta-data tier 2
+my $yearString; #meta-data year range 
 my $csv          = Text::CSV->new({ sep_char => ',' });
 
 #
 #   Check that you have the right number of parameters
+#   Either two parameters: one infilename one outfilename,
+#       or one parameter: one infilename (the out is assumed)
 #
 if ($#ARGV != 1 ) {
     if ($#ARGV == 0) {
         print "Only one filename given, assuming that wanted pdf file output is $ARGV[0].pdf\n";
         $infilename = $ARGV[0];
-        $pdffilename = $infilename.".pdf";
+        $pdffilename = $infilename.".pdf"; #just append .pdf, assume that the user wants this
     } else {
-
+        #totally wrong inputs
         print "Usage: plot.pl <input file name> <pdf file name>\n" or
         die "Print failure\n";
         exit;
@@ -39,13 +51,18 @@ print "pdf file = $pdffilename\n";
 
 
 ##############################################################
-#########MAGIC SHIT RIGHT HERE################################
+#########MAGIC parsing RIGHT HERE#############################
 ##############################################################
+#this copies the meta-data that is in the first line of the 
+#input file, then writes a new file called
+#$inputfile.temp, with all the same lines except for the first 
+#line. This temp file is used later for R
 
+#open the original
 my @fileRecords;
 open my $plot_fh, '<', $infilename or die "Unable to open file: $infilename\n";
 
-@fileRecords = <$plot_fh>;
+@fileRecords = <$plot_fh>; #copy it into memory
 close $plot_fh or die "Unable to close file: $infilename\n";
 
 #parse search.pl metadata
@@ -56,22 +73,20 @@ if ($csv->parse($fileRecords[0])) {
     $yearString = $master_fields[2];
 }
 
-
+#open the new .temp file
 open my $newplot_fh, '>', $infilename.".temp" or die "Unable to open file: $infilename\n";
+#write every line except the first
 for my $number (1 .. $#fileRecords){
     print $newplot_fh "$fileRecords[$number]";
 }
 close $newplot_fh or die "Unable to close file: $infilename\n";
 
 ##############################################################
-#########End of magic shit####################################
+#########End of magic parsing#################################
 ##############################################################
 
 # Create a communication bridge with R and start R
 my $R = Statistics::R->new();
-
-# Name the PDF output file for the plot  
-#my $Rplots_file = "./Rplots_file.pdf";
 
 # Set up the PDF file for plots
 $R->run(qq`pdf("$pdffilename" , paper="letter")`);
@@ -79,13 +94,16 @@ $R->run(qq`pdf("$pdffilename" , paper="letter")`);
 # Load the plotting library
 $R->run(q`library(ggplot2)`);
 
-# read in data from a CSV file
+# read in data from the .temp CSV file
 $R->run(qq`data <- read.csv("$infilename.temp")`);
 
 ##############################################################
 ##########START OF QUESTION-SPECIFIC PLOTTING#################
 ##############################################################
 
+#now we use the meta-data we collected to format each plot especially for it's question
+#I'm not going to explain what each of these plot lines do. 
+#If you want to know how they work, use google
 if ($t1 eq "Race" && $t2 eq "workDeath") {
     $R->run(qq`ggplot(data, aes(x=CATEGORY, y=VALUE, color=XLABEL)) + geom_bar(stat="identity", position="dodge") + ggtitle("Workplace deaths by race during $yearString")  + ylab("Deaths") + xlab("Race") + theme(axis.text.x=element_text(angle=50, size=10, vjust=1))`);
 } elsif ($t1 eq "Race" && $t2 eq "eduLvl") {
@@ -103,21 +121,14 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
 } elsif($t1 eq "MentalHealth" && $t2 eq "maritalSuicide") {
     $R->run(qq`ggplot(data, aes(x=CATEGORY, y=VALUE, color=XLABEL)) + geom_bar(stat="identity", position="dodge") + ggtitle("Deaths for different marital statuses during $yearString") + ylab("Suicides") + xlab("Marital status") + theme(axis.text.x=element_text(angle=50, size=10, vjust=1))`);
 } else {
-    printHelp();
+    #if the meta-data that we scraped is not one of the questions it supports, do nothing
     exit;
 }
 ##############################################################
 ###########END OF QUESTION-SPECIFIC PLOTTING##################
 ##############################################################
 
-#the following are sample plot lines, you should tweek them and put the finished result in to plot the appropriate question
-
-# plot the data as a line plot with each point outlined
-#$R->run(q`ggplot(data, aes(x=CATEGORY, y=VALUE, colour=XLABEL, group=XLABEL)) + geom_line() + geom_point(size=2) + ggtitle("Popularity of Names") + ylab("Ranking")`);
-#$R->run(q`ggplot(data, aes(x=CATEGORY, y=VALUE, colour=XLABEL, group=XLABEL)) + geom_bar(stat="identity", position="dodge") + ggtitle("Popularity of Names") + ylab("Ranking")`);
-#$R->run(q`ggplot(data, aes(x=CATEGORY, y=VALUE, color=XLABEL)) + geom_bar(stat="identity", position="dodge") + ggtitle("Popularity of Names") + ylab("Ranking") + theme(axis.text.x=element_text(angle=50, size=10, vjust=0.5))`);
-#$R->run(qq`ggplot(data, aes(x=CATEGORY, y=XLABEL)) + geom_bar(aes(fill=VALUE),stat="identity", binwidth=3) + ggtitle("asdf title") + ylab("Goal Differential") + xlab("Games") + scale_fill_manual(values=c("red", "blue")) + theme(axis.text.x=element_text(angle=50, size=10, vjust=0.5)) `); 
-# close down the PDF device
+#finishes writing to pdf
 $R->run(q`dev.off()`);
 
 $R->stop();

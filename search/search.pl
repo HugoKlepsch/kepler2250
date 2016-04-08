@@ -1,26 +1,26 @@
 #!/usr/bin/perl
-#
+
 #   Packages and modules
-#
+
 use strict;
 use warnings;
 use version;   our $VERSION = qv('5.16.0');   # This is the version of Perl to be used
 use Text::CSV  1.32;   # We will be using the CSV module (version 1.32 or higher)
-# to parse each line
 
 #
 #   search.pl
 #      Author(s):   Team Kepler
 #
-#      Commandline Parameters: 1
-#         $ARGV[0] = name of the input file
-#
-#      References
+#      Commandline Parameters: 5
+#         $ARGV[0] = The tier one question parameter
+#         $ARGV[1] = The tier two question parameter
+#         $ARGV[2] = The year range to search over (ex: 1997-2002)
+#         $ARGV[3] = Whether to output with plotMode or not. plotMode off == human readable (on/off)
+#                       (ex: on)
+#         $ARGV[4] = Whether or not to ignore records that contain unknown in their field (on/off)
+#                       (ex: on)
 #
 
-#
-#   Variables to be used
-#
 my $EMPTY = q{};
 my $COMMA = q{,};
 my $LIMIT = 5;
@@ -47,7 +47,7 @@ sub genFilenames {
     my $startYear = $_[1];
     my $endYear = $_[2];
     my $loopInd = 0;
-    
+
     #1 for mort filenames, anything else for birth
     if ($_[0] == 1) {
         $baseString = "mort";
@@ -56,7 +56,8 @@ sub genFilenames {
         $baseString = "birth";
         $baseDir = "processedBirth/";
     }
-    
+
+    #error checking for validity
     if ($startYear > $endYear){
         printHelp();
         exit;
@@ -64,22 +65,24 @@ sub genFilenames {
         printHelp();
         exit;
     }
+    #generate the list of filenames
     if ($_[0] == 1){
         for my $year ($startYear .. $endYear) {
             $filenames[$loopInd++] = $baseDir.$baseString.$year.".txt";
         }
-        
+
     }
     else {
         for my $year ($startYear .. $endYear) {
             $filenames[$loopInd++] = $baseDir.$year.$baseString.".txt";
         }
     }
-    
+    #return them
     return @filenames;
-    
+
 }
 
+#prints the default help text to screen
 sub printHelp {
     print "Usage: search.pl {tier 1} {tier 2} {year range} {plotMode on/off} {ignoreUnknown on/off}\n";
     print "Options: \n{tier 1}:\n\t{tier 2}\n\t{tier 2}\n";
@@ -88,7 +91,7 @@ sub printHelp {
     print "• To search a single year, put that year as both sides of the year range.\n";
     print "• PlotMode off means the output is in a 'human readable' format. \n• PlotMode on means the output is ready for our plotting tool\n";
     print "• ignoreUnknown on means that the output of the search tool does not include statistics on \n\"unknown\" categories. For example it will not output information on unknown race, or education level. \nExceptions for workplace deaths, as unknown injury is more important there. \n";
-    
+
 }
 
 #usage:
@@ -106,7 +109,7 @@ sub getYearRange {
         exit;
     }
     return @range;
-    
+
 }
 
 
@@ -115,6 +118,7 @@ if ($#ARGV != 4 ) {
     printHelp();
     exit;
 } else {
+    #parse in the argv for t1 and t2, while checking for valid configurations
     if ($ARGV[0] eq "Race") {
         $isParseMort = 1;
         $t1 = $ARGV[0];
@@ -173,9 +177,11 @@ if ($#ARGV != 4 ) {
         printHelp();
         exit;
     }
-    
+
+    #once we've error checked the t1, t2, generate the filenames to run on
     @yearRange = getYearRange($ARGV[2]);
     @filenames = genFilenames($isParseMort, $yearRange[0], $yearRange[1]);
+    #parse the remaining argvs
     $isPlotMode = $ARGV[3];
     if ($isPlotMode eq "on") {
         $isPlotMode = 1;
@@ -194,18 +200,22 @@ if ($#ARGV != 4 ) {
         printHelp();
         exit;
     }
-    
+
+    #print which files we will search to stderr
     print STDERR "Will try to load these files:\n";
     foreach my $year (@filenames) {
         print STDERR $year."\n";
     }
     print STDERR "~~~~~~~~~~~~~~~~~\n";
-    
+
 }
 
 ###############################################################################
 #Start of the search code######################################################
 ###############################################################################
+
+
+#each if/elsif block represents a question
 if ($t1 eq "Race" && $t2 eq "workDeath") {
     #Race workDeath
     my $record_count = -1;
@@ -221,7 +231,7 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     my @workInjury;
     my @records;
     my $filename;
-    
+
     my $initialYear = 0;
     my $unknown = 0;
     my $begYear = 0;
@@ -229,22 +239,24 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     $initialYear = $yearRange[0];
     $begYear = $yearRange[0];
     $endYear = $yearRange[1];
-    
+
+    #for each filename in our list
     foreach $filename (@filenames)
     {
+        #real-time progress
         print STDERR "\tStarting $filename\n";
-        
+
         #
         #   Open the input file and load the contents into records array
         #
         open my $names_fh, '<', $filename
-        or die "Unable to open names file: $filename\n";
-        
+            or die "Unable to open names file: $filename\n";
+
         @records = <$names_fh>;
-        
+
         close $names_fh or
         die "Unable to close: $filename";   # Close the input file
-        
+
         #
         #   Parse each line and store the information in arrays
         #   representing each field
@@ -259,7 +271,8 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
                 $record_count++;
                 $race[$record_count]     = $master_fields[3];
                 $workInjury[$record_count]     = $master_fields[6];
-                
+
+                #find what race they were
                 if($race[$record_count] eq "01" && $workInjury[$record_count] eq "1")
                 {
                     $whiteCount++
@@ -290,9 +303,10 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
                 warn "Line/record could not be parsed: $records[$record_count]\n";
             }
         }
-        
+
     }
-    
+
+    #different output based on command line args
     if($isPlotMode == 0)
     {
         print "From ".$initialYear." to ".$endYear." there were: \n";
@@ -326,9 +340,9 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
             print "Other,".$initialYear."-".$endYear.",".$otherCount."\n";
             print "Unknown,".$initialYear."-".$endYear.",".$unknown."\n";
         }
-        
+
     }
-    
+
 } elsif ($t1 eq "Race" && $t2 eq "eduLvl") {
     #Race eduLvl
     my $record_count = -1;
@@ -337,31 +351,31 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     my $whiteHs = 0;
     my $whiteUni = 0;
     my $whiteNs = 0;
-    
+
     my $blackElem = 0;
     my $blackNe = 0;
     my $blackHs = 0;
     my $blackUni = 0;
     my $blackNs = 0;
-    
+
     my $asianElem = 0;
     my $asianNe = 0;
     my $asianHs = 0;
     my $asianUni = 0;
     my $asianNs = 0;
-    
+
     my $indianElem = 0;
     my $indianNe = 0;
     my $indianHs = 0;
     my $indianUni = 0;
     my $indianNs = 0;
-    
+
     my $otherElem = 0;
     my $otherNe = 0;
     my $otherHs = 0;
     my $otherUni = 0;
     my $otherNs = 0;
-    
+
     my $notStated = 0;
     my $totalMcount = 0;
     my $totalFcount = 0;
@@ -370,7 +384,7 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     my @eduLevel;
     my @records;
     my $filename;
-    
+
     my $initialYear = 0;
     my $unknown = 0;
     my $begYear = 0;
@@ -378,23 +392,23 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     $initialYear = $yearRange[0];
     $begYear = $yearRange[0];
     $endYear = $yearRange[1];
-    
-    
+
+
     foreach $filename (@filenames)
     {
         print STDERR "\tStarting $filename\n";
-        
+
         #
         #   Open the input file and load the contents into records array
         #
         open my $names_fh, '<', $filename
-        or die "Unable to open names file: $filename\n";
-        
+            or die "Unable to open names file: $filename\n";
+
         @records = <$names_fh>;
-        
+
         close $names_fh or
         die "Unable to close: $filename";   # Close the input file
-        
+
         #
         #   Parse each line and store the information in arrays
         #   representing each field
@@ -409,7 +423,7 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
                 $record_count++;
                 $race[$record_count]     = $master_fields[3];
                 $eduLevel[$record_count]     = $master_fields[5];
-                
+
                 if($race[$record_count] eq "01" && ($eduLevel[$record_count] eq "01" || $eduLevel[$record_count] eq "02" || $eduLevel[$record_count] eq "03"|| $eduLevel[$record_count] eq "04" || $eduLevel[$record_count] eq "05" || $eduLevel[$record_count] eq "06" || $eduLevel[$record_count] eq "07" || $eduLevel[$record_count] eq "08"))
                 {
                     $whiteElem++;
@@ -496,7 +510,7 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
                     {
                         $otherNe++;
                     }
-                    
+
                 }
             }
             else
@@ -504,9 +518,9 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
                 warn "Line/record could not be parsed: $records[$record_count]\n";
             }
         }
-        
+
     }
-    
+
     if($isPlotMode == 0)
     {
         print "From ".$initialYear." to ".$endYear." there were: \n";
@@ -547,27 +561,27 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
             print "Indian,"."No education".",".$indianNe."\n";
             print "Asian,"."No education".",".$asianNe."\n";
             print "Other,"."No education".",".$otherNe."\n";
-            
+
             print "White,"."Elementary".",".$whiteElem."\n";
             print "Black,"."Elementary".",".$blackElem."\n";
             print "Indian,"."Elementary".",".$indianElem."\n";
             print "Asian,"."Elementary".",".$asianElem."\n";
             print "Other,"."Elementary".",".$otherElem."\n";
-            
+
             print "White,"."High School".",".$whiteHs."\n";
             print "Black,"."High School".",".$blackHs."\n";
             print "Indian,"."High School".",".$indianHs."\n";
             print "Asian,"."High School".",".$asianHs."\n";
             print "Other,"."High School".",".$otherHs."\n";
-            
+
             print "White,"."University".",".$whiteUni."\n";
             print "Black,"."University".",".$blackUni."\n";
             print "Indian,"."University".",".$indianUni."\n";
             print "Asian,"."University".",".$asianUni."\n";
             print "Other,"."University".",".$otherUni."\n";
-            
+
         }
-        
+
         else
         {
             print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
@@ -577,28 +591,28 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
             print "Indian,"."No education".",".$indianNe."\n";
             print "Asian,"."No education".",".$asianNe."\n";
             print "Other,"."No education".",".$otherNe."\n";
-            
+
             print "White,"."Elementary".",".$whiteElem."\n";
             print "Black,"."Elementary".",".$blackElem."\n";
             print "Indian,"."Elementary".",".$indianElem."\n";
             print "Asian,"."Elementary".",".$asianElem."\n";
             print "Other,"."Elementary".",".$otherElem."\n";
-            
+
             print "White,"."High School".",".$whiteHs."\n";
             print "Black,"."High School".",".$blackHs."\n";
             print "Indian,"."High School".",".$indianHs."\n";
             print "Asian,"."High School".",".$asianHs."\n";
             print "Other,"."High School".",".$otherHs."\n";
-            
+
             print "White,"."University".",".$whiteUni."\n";
             print "Black,"."University".",".$blackUni."\n";
             print "Indian,"."University".",".$indianUni."\n";
             print "Asian,"."University".",".$asianUni."\n";
             print "Other,"."University".",".$otherUni."\n";
-            
+
             print "All races,"."Not stated".",".$notStated."\n";
         }
-        
+
     }
 } elsif ($t1 eq "Gender" && $t2 eq "workDeath") {
     #Gender workDeath
@@ -612,7 +626,7 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     my @workInjury;
     my @records;
     my $filename;
-    
+
     my $initialYear = 0;
     my $unknown = 0;
     my $begYear = 0;
@@ -620,22 +634,22 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     $initialYear = $yearRange[0];
     $begYear = $yearRange[0];
     $endYear = $yearRange[1];
-    
+
     foreach $filename (@filenames)
     {
         print STDERR "\tStarting $filename\n";
-        
+
         #
         #   Open the input file and load the contents into records array
         #
         open my $names_fh, '<', $filename
-        or die "Unable to open names file: $filename\n";
-        
+            or die "Unable to open names file: $filename\n";
+
         @records = <$names_fh>;
-        
+
         close $names_fh or
         die "Unable to close: $filename";   # Close the input file
-        
+
         #
         #   Parse each line and store the information in arrays
         #   representing each field
@@ -650,7 +664,7 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
                 $record_count++;
                 $gender[$record_count]     = $master_fields[2];
                 $workInjury[$record_count]     = $master_fields[6];
-                
+
                 if($gender[$record_count] eq "1" && $workInjury[$record_count] eq "1")
                 {
                     $maleInjuryCount++;
@@ -669,18 +683,18 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
                 warn "Line/record could not be parsed: $records[$record_count]\n";
             }
         }
-        
+
         $totalMcount = $totalMcount + $maleInjuryCount;
         $totalFcount = $totalFcount + $femaleInjuryCount;
         $totalUcount = $totalUcount + $unknown;
-        
+
         $record_count = -1;
         $maleInjuryCount = 0;
         $femaleInjuryCount = 0;
         $unknown = 0;
-        
+
     }
-    
+
     if($isPlotMode == 0)
     {
         print "From ".$initialYear." to ".$endYear." there were: \n";
@@ -715,7 +729,7 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     my @eduLevel;
     my @records;
     my $filename;
-    
+
     my $initialYear = 0;
     my $unknown = 0;
     my $begYear = 0;
@@ -723,22 +737,22 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     $initialYear = $yearRange[0];
     $begYear = $yearRange[0];
     $endYear = $yearRange[1];
-    
+
     foreach $filename (@filenames)
     {
         print STDERR "\tStarting $filename\n";
-        
+
         #
         #   Open the input file and load the contents into records array
         #
         open my $names_fh, '<', $filename
-        or die "Unable to open names file: $filename\n";
-        
+            or die "Unable to open names file: $filename\n";
+
         @records = <$names_fh>;
-        
+
         close $names_fh or
         die "Unable to close: $filename";   # Close the input file
-        
+
         #
         #   Parse each line and store the information in arrays
         #   representing each field
@@ -753,7 +767,7 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
                 $record_count++;
                 $gender[$record_count]     = $master_fields[2];
                 $eduLevel[$record_count]     = $master_fields[5];
-                
+
                 if($gender[$record_count] eq "1" && $eduLevel[$record_count] eq "00")
                 {
                     $maleNe++;
@@ -800,9 +814,9 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
                 warn "Line/record could not be parsed: $records[$record_count]\n";
             }
         }
-        
+
     }
-    
+
     if($isPlotMode == 0)
     {
         print "From ".$initialYear." to ".$endYear." there were: \n";
@@ -827,20 +841,20 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
         print "CATEGORY,XLABEL,VALUE\n";
         print "Male,"."No education".",".$maleNe."\n";
         print "Female,"."No education".",".$femaleNe."\n";
-        
+
         print "Male,"."Elementary".",".$maleElem."\n";
         print "Female,"."Elementary".",".$femaleElem."\n";
-        
+
         print "Male,"."High School".",".$maleHs."\n";
         print "Female,"."High School".",".$femaleHs."\n";
-        
+
         print "Male,"."University".",".$maleUni."\n";
         print "Female,"."University".",".$femaleUni."\n";
-        
+
         print "Male,"."Not stated".",".$maleNs."\n";
         print "Female,"."Not stated".",".$femaleNs."\n";
     }
-    
+
 } elsif($t1 eq "Funeral" && $t2 eq "deathMonth") {
     #Funeral deathMonth
     my $filename = 0;
@@ -857,11 +871,11 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     my $octDeath = 0;
     my $novDeath = 0;
     my $decDeath = 0;
-    
+
     my @month;
     my @death;
     my @records;
-    
+
     my $initialYear = 0;
     my $unknown = 0;
     my $begYear = 0;
@@ -869,14 +883,14 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
     $initialYear = $yearRange[0];
     $begYear = $yearRange[0];
     $endYear = $yearRange[1];
-    
+
     #    while($begYear != $endYear+1)
     #    {
     #        $filename = "mort".$begYear.".txt";
     #
     #        #my $file = "/mortTest/".$filename;
     #        #print $file."\n";
-    
+
     foreach $filename (@filenames)
     {
         print STDERR "\tStarting $filename\n";
@@ -884,13 +898,13 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
         #   Open the input file and load the contents into records array
         #
         open my $names_fh, '<', $filename
-        or die "Unable to open names file: $filename\n";
-        
+            or die "Unable to open names file: $filename\n";
+
         @records = <$names_fh>;
-        
+
         close $names_fh or
         die "Unable to close: $ARGV[0]\n";   # Close the input file
-        
+
         #
         #   Parse each line and store the information in arrays
         #   representing each field
@@ -905,7 +919,7 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
                 $record_count++;
                 $month[$record_count]     = $master_fields[1];
                 $death[$record_count]     = $master_fields[7];
-                
+
                 if($month[$record_count] eq "01")
                 {
                     $janDeath ++;
@@ -960,9 +974,9 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
                 warn "Line/record could not be parsed: $records[$record_count]\n";
             }
         }
-        
+
     }
-    
+
     if($isPlotMode == 0)
     {
         print "From ".$initialYear." to ".$endYear." there were: \n";
@@ -996,7 +1010,7 @@ if ($t1 eq "Race" && $t2 eq "workDeath") {
         print "11,".$initialYear."-".$endYear.",".$novDeath."\n";
         print "12,".$initialYear."-".$endYear.",".$decDeath."\n";
     }
-    
+
 } 
 elsif($t1 eq "School" && $t2 eq "birthMonth") 
 {
@@ -1007,34 +1021,34 @@ elsif($t1 eq "School" && $t2 eq "birthMonth")
     $initialYear = $yearRange[0];
     $begYear = $yearRange[0];
     $endYear = $yearRange[1];
-    
+
     my $filename;
     my $gender;
     my @monthValue;
     my $record_count;
     my @records;
-    
+
     foreach $filename (@filenames)
     {
-        
+
         print STDERR "\tStarting $filename\n";
         open my $names_fh, '<', $filename
-        or die "Unable to open names file: $filename\n";
-        
+            or die "Unable to open names file: $filename\n";
+
         @records = <$names_fh>;
-        
+
         close $names_fh or
         die "Unable to close: $filename";   # Close the input file
-        
+
         foreach my $birth_record ( @records )
         {
             if ( $csv->parse($birth_record) )
             {
                 my @master_fields = $csv->fields();
                 $record_count++;
-              
+
                 $monthValue[$master_fields[1]] += 1;
-                
+
 
             }
             else
@@ -1043,13 +1057,13 @@ elsif($t1 eq "School" && $t2 eq "birthMonth")
             }
         }
     }
-    
+
     if ($isPlotMode == 0)
     {
         for (my $i = 1; $i < 13; $i++)
         {
             print "Total Births per month: " . $monthValue[$i] . " for month ". $i ."\n";
-        
+
         }
     }
     else
@@ -1080,26 +1094,26 @@ elsif($t1 eq "School" && $t2 eq "birthMonth")
     $initialYear = $yearRange[0];
     $begYear = $yearRange[0];
     $endYear = $yearRange[1];
-    
+
     my $filename;
     my $gender;
     my @monthValueMale;
     my @monthValueFemale;
     my $record_count;
     my @records;
-    
+
     foreach $filename (@filenames)
     {
-        
+
         print STDERR "\tStarting $filename\n";
         open my $names_fh, '<', $filename
-        or die "Unable to open names file: $filename\n";
-        
+            or die "Unable to open names file: $filename\n";
+
         @records = <$names_fh>;
-        
+
         close $names_fh or
         die "Unable to close: $filename";   # Close the input file
-        
+
         foreach my $birth_record ( @records )
         {
             if ( $csv->parse($birth_record) )
@@ -1122,14 +1136,14 @@ elsif($t1 eq "School" && $t2 eq "birthMonth")
             }
         }
     }
-    
+
     if ($isPlotMode == 0)
     {
         for (my $i = 1; $i < 13; $i++)
         {
             print "Female Total: " . $monthValueFemale[$i] . " for month ". $i ."\n";
             print "Male Total: " . $monthValueMale[$i] . " for month ". $i ."\n";
-        
+
         }
     }
     else
@@ -1187,7 +1201,7 @@ elsif($t1 eq "School" && $t2 eq "birthMonth")
     my @mannerOD;
     my @records;
     my $filename;
-    
+
     my $initialYear = 0;
     my $unknown = 0;
     my $begYear = 0;
@@ -1195,22 +1209,22 @@ elsif($t1 eq "School" && $t2 eq "birthMonth")
     $initialYear = $yearRange[0];
     $begYear = $yearRange[0];
     $endYear = $yearRange[1];
-    
+
     foreach $filename (@filenames)
     {
         print STDERR "\tStarting $filename\n";
-        
+
         #
         #   Open the input file and load the contents into records array
         #
         open my $names_fh, '<', $filename
-        or die "Unable to open names file: $filename\n";
-        
+            or die "Unable to open names file: $filename\n";
+
         @records = <$names_fh>;
-        
+
         close $names_fh or
         die "Unable to close: $filename";   # Close the input file
-        
+
         #
         #   Parse each line and store the information in arrays
         #   representing each field
@@ -1226,7 +1240,7 @@ elsif($t1 eq "School" && $t2 eq "birthMonth")
                 $gender                     = $master_fields[2];
                 $mStatus[$record_count]     = $master_fields[4];
                 $mannerOD[$record_count]    = $master_fields[7];
-                
+
                 if($mStatus[$record_count] eq "1" && $mannerOD[$record_count] eq "1")
                 {
                     if ($gender eq "1") {
@@ -1273,9 +1287,9 @@ elsif($t1 eq "School" && $t2 eq "birthMonth")
                 warn "Line/record could not be parsed: $records[$record_count]\n";
             }
         }
-        
+
     }
-    
+
     if($isPlotMode == 0)
     {
         print "From ".$initialYear." to ".$endYear." there were: \n";
@@ -1305,7 +1319,7 @@ elsif($t1 eq "School" && $t2 eq "birthMonth")
             print "Widowed,"."Female".",".$widowedCountFemale."\n";
             print "Divorced,"."Female".",".$divorcedCountFemale."\n";
         }
-        
+
         else
         {
             print $t1.",".$t2.",".$initialYear."-".$endYear."\n";
@@ -1322,7 +1336,7 @@ elsif($t1 eq "School" && $t2 eq "birthMonth")
             print "Unknown,"."Female".",".$unknownCountFemale."\n";
         }
     }
-    
+
 } else {
     printHelp();
     exit;

@@ -1,4 +1,7 @@
 #!/usr/bin/perl
+
+
+
 use strict;
 use warnings;
 
@@ -6,8 +9,6 @@ use warnings;
 #  mort.pl
 #     Author: Hugo Klepsch & Raymond Hong
 #     Date of Last Update: Sunday, March 17, 2016.
-#
-#     Summary
 #
 #     Parameters on the commandline:
 #        $ARGV[0] = name of the input file, i.e. the unprocessed MORT file
@@ -45,6 +46,7 @@ my $mannerOD = "";
 my $mannerOD2 = "";
 my $mortRecord;
 
+#for every line in the file
 while ( $mortRecord = <$mortFH> ) {
     
     #  Chop off the end of line character(s)
